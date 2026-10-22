@@ -1,48 +1,38 @@
-# Deployment & Domain Architecture
+# Cloudflare Worker & Domain Deployment
 
-## 1. Domain Hierarchy
+## 1. Host-Aware Cloudflare Worker Architecture (`worker.mjs` + `wrangler.toml`)
 
-`illatio-web` serves the three top-level Illatio properties:
+`illatio-web` is packaged as a **Cloudflare Worker with Static Assets** (`wrangler.toml` `main = "worker.mjs"`, `[assets] directory = "./dist"`). A single Worker deployment serves all three top-level Illatio properties based on the incoming request hostname (or `?domain=labs|cloud` query override on `*.workers.dev`):
 
-| Property      | Canonical Domain            | Preview Path | Package Target                    |
-| ------------- | --------------------------- | ------------ | --------------------------------- |
-| Illatio Home  | `https://illatio.dev`       | `/`          | `npm run package:site -- illatio` |
-| Guild Labs    | `https://labs.illatio.dev`  | `/labs/`     | `npm run package:site -- labs`    |
-| Illatio Cloud | `https://cloud.illatio.dev` | `/cloud/`    | `npm run package:site -- cloud`   |
+| Property      | Canonical Custom Domain     | Worker Route Resolution (`worker.mjs`) |
+| ------------- | --------------------------- | -------------------------------------- |
+| Illatio Home  | `https://illatio.dev`       | `/` → `dist/index.html`                |
+| Guild Labs    | `https://labs.illatio.dev`  | `/` → `dist/labs/index.html`           |
+| Illatio Cloud | `https://cloud.illatio.dev` | `/` → `dist/cloud/index.html`          |
 
-The sibling `guild-web` repository serves `guild.illatio.dev`, `docs.guild.illatio.dev`, and `models.guild.illatio.dev`.
+## 2. Deploying the Cloudflare Worker
 
-## 2. Current Infrastructure Findings (2026-10-22)
-
-1. **Cloudflare DNS**: `illatio.dev` delegates nameservers to Cloudflare (`doug.ns.cloudflare.com`, `emely.ns.cloudflare.com`). `illatio.dev`, `labs.illatio.dev`, `cloud.illatio.dev`, and `guild.illatio.dev` currently resolve through Cloudflare proxy IPs and return HTTP `521` (Origin Down) because no origin listener is active for those hostnames.
-2. **Wrangler CLI Auth**: The local `wrangler` OAuth refresh token on this host is expired (`400 invalid_grant`). Rather than requesting or storing secrets in Git, this repository provides:
-   - Automated **GitHub Pages** preview deployment via `.github/workflows/ci.yml` (`https://guild-inference.github.io/illatio-web/`).
-   - Reproducible **Cloudflare Pages** per-domain static bundle packaging (`npm run package:site -- illatio|labs|cloud`).
-   - Optional **Nginx** static-origin configuration (`deploy/nginx/illatio-web.conf`).
-3. **No Unauthorized Cutover**: Production DNS records and active host Nginx configs were not modified.
-
-## 3. Deploying to Cloudflare Pages (Recommended Production Path)
-
-First-level subdomains (`illatio.dev`, `labs.illatio.dev`, `cloud.illatio.dev`) are covered by Cloudflare Universal SSL (`illatio.dev` and `*.illatio.dev`).
+### Option A: CLI Deployment (`npm run deploy:worker`)
 
 ```bash
-# Authenticate Wrangler interactively on a workstation with Cloudflare access
+# 1. Authenticate Wrangler (or export CLOUDFLARE_API_TOKEN with Workers Scripts:Edit permission)
 npx wrangler login
 
-# Build production static bundle with canonical domain links
-PUBLIC_DEPLOYMENT=production npm run build
-
-# Package and deploy illatio.dev
-npm run package:site -- illatio
-npx wrangler pages deploy dist-site --project-name illatio-web --branch main
-
-# Package and deploy labs.illatio.dev
-npm run package:site -- labs
-npx wrangler pages deploy dist-site --project-name illatio-labs --branch main
-
-# Package and deploy cloud.illatio.dev
-npm run package:site -- cloud
-npx wrangler pages deploy dist-site --project-name illatio-cloud --branch main
+# 2. Build production bundle and deploy the Worker + Static Assets
+npm run deploy:worker
 ```
 
-After deploying the Pages projects, attach custom domains `illatio.dev`, `labs.illatio.dev`, and `cloud.illatio.dev` in the Cloudflare dashboard (**Workers & Pages → Custom domains**).
+### Option B: Cloudflare Workers Builds (Git Integration)
+
+1. In the Cloudflare dashboard, open **Workers & Pages → Create application → Workers → Import a repository**.
+2. Select **`guild-inference/illatio-web`**.
+3. Set Build command: `PUBLIC_DEPLOYMENT=production npm run build`
+4. Set Deploy command: `npx wrangler deploy`
+5. Under **Settings → Domains & Routes**, attach custom domains:
+   - `illatio.dev`
+   - `labs.illatio.dev`
+   - `cloud.illatio.dev`
+
+### Option C: GitHub Actions Automated Worker Deployment
+
+`.github/workflows/ci.yml` includes a `deploy-worker` job that validates `npx wrangler deploy --dry-run` on every push to `main` and automatically runs `npx wrangler deploy` once `CLOUDFLARE_API_TOKEN` (and optionally `CLOUDFLARE_ACCOUNT_ID`) is added to the repository or `guild-inference` organization secrets.

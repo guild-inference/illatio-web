@@ -52,3 +52,26 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+  deploy-worker:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Build production Worker bundle
+        run: npm run build
+        env:
+          PUBLIC_DEPLOYMENT: production
+      - name: Verify Cloudflare Worker bundle (--dry-run)
+        run: npx wrangler deploy --dry-run
+      - name: Deploy to Cloudflare Workers (when CLOUDFLARE_API_TOKEN is configured)
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
