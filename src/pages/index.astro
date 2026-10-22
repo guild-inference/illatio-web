@@ -1,0 +1,98 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Field from '../components/Field.astro';
+import { link } from '../lib/links';
+---
+
+<Shell
+  title="Illatio — Intelligence, within reach"
+  description="Open inference systems, efficient model research, and a planned cloud platform. Illatio builds AI infrastructure around the hardware we have."
+>
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="dot"></span> Systems / research / possibility</div><h1>
+        Intelligence,<br /><em>within reach.</em>
+      </h1><p class="lead">
+        Better AI infrastructure starts with making more of what we have. We build open inference
+        systems and explore efficient models for a wider world of hardware.
+      </p><div class="actions">
+        <a class="button" href={link('guild')}>Meet Guild <span aria-hidden="true">↗</span></a><a
+          class="text-link"
+          href="#ecosystem">Explore Illatio <span aria-hidden="true">↓</span></a
+        >
+      </div><p class="small-note">Independent. Open by design. Under development.</p>
+    </div><Field />
+  </section>
+  <section id="ecosystem" class="section wrap">
+    <div class="section-heading">
+      <span class="section-label">01 / Our ecosystem</span><div>
+        <h2>One ambition.<br />Three ways forward.</h2><p>
+          From the engine on your machine to questions at the edge of model design, our work
+          connects practical systems with long-term research.
+        </p>
+      </div>
+    </div><div class="pillars">
+      <article class="pillar">
+        <span class="number">01</span><span class="status"
+          ><span class="dot"></span> Open source · active development</span
+        ><h3>Guild</h3><p>
+          A native inference engine for Mixture-of-Experts models. Put GPU memory, system RAM, and
+          CPU compute to work together.
+        </p><a class="text-link" href={link('guild')}
+          >Discover the engine <span aria-hidden="true">↗</span></a
+        >
+      </article><article class="pillar">
+        <span class="number">02</span><span class="status">Research initiative</span><h3>
+          Guild Labs
+        </h3><p>
+          Exploring efficient language models, sparse architectures, and ternary representations.
+          Home of the proposed Eon family.
+        </p><a class="text-link" href={link('labs')}
+          >Explore our questions <span aria-hidden="true">↗</span></a
+        >
+      </article><article class="pillar">
+        <span class="number">03</span><span class="status">In development</span><h3>
+          Illatio Cloud
+        </h3><p>
+          Our planned hosted inference platform. Taking the systems thinking behind Guild toward a
+          managed experience.
+        </p><a class="text-link" href={link('cloud')}
+          >See the direction <span aria-hidden="true">↗</span></a
+        >
+      </article>
+    </div>
+  </section>
+  <section class="section wrap">
+    <div class="statement">
+      <div>
+        <span class="eyebrow">02 / A different starting point</span><h2>
+          The machine you have.<br /><em>The possibility inside it.</em>
+        </h2>
+      </div><div>
+        <p>
+          Useful intelligence should not depend on having the newest accelerator. Sparse models give
+          us another path: many parameters, only a fraction of the experts active for each token.
+        </p><p>
+          Guild turns that observation into systems software. Labs asks how the models themselves
+          could become more efficient. Cloud explores how to make those systems easier to access.
+        </p><a class="text-link" href="https://github.com/guild-inference"
+          >Follow the work in the open <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+  <section class="section wrap">
+    <div class="band">
+      <div>
+        <span class="eyebrow">Start with what exists today</span><h2>
+          An engine you can read,<br />build, and run.
+        </h2><p>
+          Explore Guild’s source-backed documentation, model compatibility, and measured
+          performance.
+        </p>
+      </div><a class="button" href={link('docs')}
+        >Start building <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </section>
+</Shell>

@@ -1,0 +1,139 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource/instrument-serif/latin-400.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '../styles/site.css';
+import { asset, canonical, link, domains, type Property } from '../lib/links';
+interface Props {
+  title: string;
+  description: string;
+  property?: Property;
+  path?: string;
+  dark?: boolean;
+  noindex?: boolean;
+}
+const {
+  title,
+  description,
+  property = 'illatio',
+  path = '',
+  dark = false,
+  noindex = false,
+} = Astro.props;
+const preview = import.meta.env.PUBLIC_DEPLOYMENT !== 'production';
+const names: Record<Property, string> = {
+  illatio: 'Illatio',
+  guild: 'Guild',
+  labs: 'Guild Labs',
+  cloud: 'Illatio Cloud',
+  docs: 'Guild Docs',
+  models: 'Guild Models',
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme={dark ? 'dark' : 'light'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={dark ? '#161c1b' : '#f3f1e9'} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical(property, path)} />
+    {(preview || noindex) && <meta name="robots" content="noindex,follow" />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical(property, path)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={canonical(property, 'social.svg')} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+  </head>
+  <body class={`property-${property}`}>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="topline wrap">
+      <a href={link('illatio')}>Independent infrastructure. Shared ambition.</a><span
+        >{preview ? 'Development preview' : 'Built in the open'} <i aria-hidden="true">↗</i></span
+      >
+    </div>
+    <header class="header wrap">
+      <a class="brand" href={link(property)} aria-label={`${names[property]} home`}
+        ><svg viewBox="0 0 32 32" aria-hidden="true"
+          ><path d="M5 26 16 5l11 21H5Zm6-7h10M16 5v21"></path></svg
+        >{names[property]}<span class="brand-dot">.</span></a
+      >
+      <details class="mobile-menu">
+        <summary>Menu <span aria-hidden="true">+</span></summary><nav
+          aria-label="Mobile navigation"
+        >
+          {
+            Object.entries(names).map(([key, name]) => (
+              <a href={link(key as Property)} aria-current={key === property ? 'page' : undefined}>
+                {name}
+                <span>↗</span>
+              </a>
+            ))
+          }
+        </nav>
+      </details>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        {
+          (['guild', 'labs', 'cloud', 'docs', 'models'] as Property[]).map((p) => (
+            <a href={link(p)} aria-current={p === property ? 'page' : undefined}>
+              {names[p]}
+            </a>
+          ))
+        }
+      </nav>
+      <a class="header-source" href="https://github.com/guild-inference"
+        >GitHub <span aria-hidden="true">↗</span></a
+      >
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="footer wrap">
+      <div class="footer-top">
+        <a class="wordmark" href={link('illatio')}>Illatio<span>.</span></a><p>
+          Make more of the<br />hardware we have.
+        </p>
+      </div>
+      <div class="footer-links">
+        <nav aria-label="Ecosystem navigation">
+          {
+            Object.entries(domains).map(([key, domain]) => (
+              <a href={link(key as Property)}>
+                {domain}
+                <span aria-hidden="true">↗</span>
+              </a>
+            ))
+          }
+        </nav><div>
+          <a href="https://github.com/guild-inference">Source & contributions ↗</a><p>
+            Illatio is under development.<br />Guild Core is open source under MIT.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Illatio / {new Date().getUTCFullYear()}</span><span
+          >Local systems. Open possibilities.</span
+        >
+      </div>
+    </footer>
+    <script>
+      document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const target = document.getElementById(button.dataset.copy || '');
+          try {
+            if (!target) throw new Error('Missing code');
+            await navigator.clipboard.writeText(target.textContent || '');
+            button.textContent = 'Copied';
+          } catch {
+            button.textContent = 'Select code to copy';
+          }
+          setTimeout(() => {
+            button.textContent = 'Copy';
+          }, 2500);
+        });
+      });
+    </script>
+  </body>
+</html>

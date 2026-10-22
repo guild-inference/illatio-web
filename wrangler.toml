@@ -1,0 +1,5 @@
+name = "illatio-web"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "dist-site"
+# Build, then npm run package:site -- illatio|labs|cloud.
+# Pass --project-name explicitly for the selected property. No custom-domain routes here.

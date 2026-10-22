@@ -1,0 +1,136 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import Field from '../../components/Field.astro';
+import { link } from '../../lib/links';
+---
+
+<Shell
+  property="labs"
+  title="Guild Labs — A smaller footprint. A larger possibility."
+  description="Research interests in efficient language models, MoE architectures, ternary representations, and local inference. Eon is a proposed model family; a grant decision is pending."
+>
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="dot"></span> Guild Labs / research initiative</div><h1>
+        A smaller footprint.<br /><em>A larger possibility.</em>
+      </h1><p class="lead">
+        How much intelligence can we build with less? Guild Labs explores the relationship between
+        model architecture, numerical representation, and the machines that run them.
+      </p><div class="actions">
+        <a class="button" href="#research">Explore the research <span aria-hidden="true">↓</span></a
+        >
+      </div>
+    </div><Field variant="labs" />
+  </section>
+  <section id="research" class="section wrap">
+    <div class="section-heading">
+      <span class="section-label">01 / Open questions</span><h2>
+        Efficiency, from the<br />model to the machine.
+      </h2>
+    </div><div class="pillars">
+      <article class="pillar">
+        <span class="number">01</span><h3>Sparse by design</h3><p>
+          How can Mixture-of-Experts architectures increase model capacity while limiting the work
+          required for each token?
+        </p>
+      </article><article class="pillar">
+        <span class="number">02</span><h3>Less precision.<br />More intention.</h3><p>
+          What can ternary and low-bit representations offer when we consider model quality,
+          training, and hardware execution together?
+        </p>
+      </article><article class="pillar">
+        <span class="number">03</span><h3>Local, by nature</h3><p>
+          How should model design change when GPU memory is limited, system RAM is plentiful, and
+          data stays on the user’s machine?
+        </p>
+      </article>
+    </div>
+  </section>
+  <section class="section wrap">
+    <div class="statement">
+      <div>
+        <span class="eyebrow">02 / Proposed model family</span><h2>
+          Introducing an ambition.<br /><em>Eon.</em>
+        </h2>
+      </div><div>
+        <p>
+          Eon is the name of our proposed model family. Our interests include efficient large
+          language models, sparse MoE architectures, and ternary representations.
+        </p><p>
+          The architecture, scale, and release schedule are not finalized. There are no released Eon
+          checkpoints or published Eon research results to announce.
+        </p><div class="notice">
+          <strong>Research grant decision pending.</strong> We are awaiting a decision; funding has not
+          been announced as awarded.
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section wrap">
+    <div class="section-heading">
+      <span class="section-label">03 / Representation study</span><div>
+        <h2>What does a bit buy?</h2><p>
+          A simple way to explore weight storage. These are mathematical estimates for hypothetical
+          parameter counts, not Eon specifications or runtime memory requirements.
+        </p>
+      </div>
+    </div><div class="paper">
+      <label for="scale"
+        >Hypothetical parameter count: <output id="scale-label">35</output> billion</label
+      ><input
+        id="scale"
+        type="range"
+        min="1"
+        max="200"
+        value="35"
+        step="1"
+        style="width:100%;margin:25px 0;accent-color:var(--accent)"
+      /><div class="weight-bars">
+        {
+          [
+            ['16-bit', 16],
+            ['8-bit', 8],
+            ['4-bit', 4],
+            ['Ternary', Math.log2(3)],
+          ].map(([label, bits]) => (
+            <div class="weight-row">
+              <>
+                <span>{label}</span>
+                <div class="weight-track">
+                  <div class="weight-fill" style={`width:${(Number(bits) / 16) * 100}%`} />
+                </div>
+                <output data-bits={bits}>
+                  {((35e9 * Number(bits)) / 8 / 2 ** 30).toFixed(2)} GiB
+                </output>
+              </>
+            </div>
+          ))
+        }
+      </div><p class="small-note">
+        Storage = parameters × bits ÷ 8 ÷ 2³⁰. Ternary uses the ideal log₂(3) ≈ 1.585-bit
+        information bound. Packing, scales, mixed precision, activations, KV cache, and runtime
+        workspaces add overhead. Storage reduction alone says nothing about quality or speed.
+      </p>
+    </div>
+  </section>
+  <section class="section wrap">
+    <div class="band">
+      <div>
+        <h2>Our systems work is open.</h2><p>
+          Guild is where we develop and measure local inference infrastructure today.
+        </p>
+      </div><a class="button" href={link('guild')}
+        >Explore Guild <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </section>
+  <script>
+    const slider = document.querySelector<HTMLInputElement>('#scale');
+    slider?.addEventListener('input', () => {
+      document.querySelector('#scale-label')!.textContent = slider.value;
+      document.querySelectorAll<HTMLOutputElement>('[data-bits]').forEach((out) => {
+        out.textContent = `${((Number(slider.value) * 1e9 * Number(out.dataset.bits)) / 8 / 2 ** 30).toFixed(2)} GiB`;
+      });
+    });
+  </script>
+</Shell>
