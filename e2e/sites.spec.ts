@@ -7,13 +7,20 @@ for (const width of [1440, 390, 320])
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
       await page.setViewportSize({ width, height: 900 });
-      await page.emulateMedia({ reducedMotion: 'reduce' });
       const response = await page.goto(route);
       expect(response?.status()).toBe(200);
       await page.evaluate(() => document.fonts.ready);
+      await page.waitForTimeout(450);
       await expect(page.locator('h1')).toHaveCount(1);
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+      ).toBeTruthy();
+      expect(
+        await page.evaluate(() =>
+          [...document.querySelectorAll('.pillar, .paper, .band, .notice')].every(
+            (el) => Number(getComputedStyle(el).opacity) === 1,
+          ),
+        ),
       ).toBeTruthy();
       expect(
         (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())

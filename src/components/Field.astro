@@ -11,8 +11,43 @@ const color = isGuild
     : variant === 'cloud'
       ? '#2c5b8c'
       : '#b84426';
-const warmGlow = isGuild ? '#ebac62' : '#d49b4b';
-const muted = isGuild ? '#5b7165' : '#9da798';
+const warmGlow = isGuild ? '#ebac62' : '#e08b44';
+const muted = isGuild ? '#5b7165' : '#9aa495';
+
+const pt = (col: number, row: number) => {
+  const x = Number((26 + col * 25).toFixed(1));
+  const y = Number((148 + row * 14 - Math.sin((col / 21) * Math.PI) * (82 - row * 3.8)).toFixed(1));
+  return { x, y };
+};
+
+const activePathCoords: Array<[number, number]> = [
+  [6, 4],
+  [6, 5],
+  [6, 6],
+  [6, 7],
+  [6, 8],
+  [7, 8],
+  [8, 8],
+  [9, 8],
+  [10, 8],
+  [11, 8],
+  [12, 8],
+  [13, 8],
+  [14, 8],
+  [15, 8],
+  [15, 9],
+  [15, 10],
+  [15, 11],
+  [15, 12],
+];
+
+const activeKeySet = new Set(activePathCoords.map(([c, r]) => `${c},${r}`));
+const activePoints = activePathCoords.map(([c, r]) => pt(c, r));
+const routeD = activePoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+const startPt = activePoints[0];
+const midPt = activePoints[4];
+const turnPt = activePoints[13];
+const endPt = activePoints[activePoints.length - 1];
 ---
 
 <div class="hero-art" data-field-card>
@@ -22,93 +57,159 @@ const muted = isGuild ? '#5b7165' : '#9da798';
       pulses through a larger network.
     </title>
     <defs>
-      <radialGradient id={`fade-${variant}`}>
-        <stop offset="0%" stop-color={color} stop-opacity=".18"></stop>
-        <stop offset="55%" stop-color={warmGlow} stop-opacity=".08"></stop>
+      <radialGradient id={`fade-${variant}`} cx="52%" cy="46%" r="50%">
+        <stop offset="0%" stop-color={color} stop-opacity=".22"></stop>
+        <stop offset="52%" stop-color={warmGlow} stop-opacity=".10"></stop>
         <stop offset="100%" stop-color={color} stop-opacity="0"></stop>
       </radialGradient>
+      <filter id={`glow-${variant}`} x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="3.5" result="blur"></feGaussianBlur>
+        <feMerge>
+          <feMergeNode in="blur"></feMergeNode>
+          <feMergeNode in="SourceGraphic"></feMergeNode>
+        </feMerge>
+      </filter>
     </defs>
-    <circle cx="310" cy="255" r="250" fill={`url(#fade-${variant})`}></circle>
-    <g class="lattice-wave">
+
+    <!-- Warm ambient hearth halo behind the lattice -->
+    <circle cx="305" cy="245" r="245" fill={`url(#fade-${variant})`}></circle>
+
+    <!-- Horizontal & vertical curved manifold lines -->
+    <g class="lattice-lines">
       {
-        Array.from({ length: 16 }, (_, row) => (
-          <path
-            d={`M 24 ${145 + row * 14} Q 245 ${-70 + row * 26}, 576 ${145 + row * 16}`}
-            fill="none"
-            stroke={muted}
-            stroke-width=".65"
-            opacity=".32"
-          />
-        ))
+        Array.from({ length: 16 }, (_, row) => {
+          const rowPts = Array.from({ length: 22 }, (__, col) => pt(col, row));
+          const d = rowPts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+          return <path d={d} fill="none" stroke={muted} stroke-width=".65" opacity=".28" />;
+        })
       }
       {
-        Array.from({ length: 22 }, (_, col) => (
-          <path
-            d={`M ${24 + col * 25} ${145 - Math.sin((col / 21) * Math.PI) * 86} Q ${42 + col * 23} 285 ${42 + col * 23} ${392 - Math.sin((col / 21) * Math.PI) * 28}`}
-            fill="none"
-            stroke={muted}
-            stroke-width=".65"
-            opacity=".32"
-          />
-        ))
+        Array.from({ length: 22 }, (_, col) => {
+          const colPts = Array.from({ length: 16 }, (__, row) => pt(col, row));
+          const d = colPts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+          return <path d={d} fill="none" stroke={muted} stroke-width=".65" opacity=".28" />;
+        })
       }
+    </g>
+
+    <!-- Inactive lattice nodes -->
+    <g>
       {
         Array.from({ length: 16 }, (_, row) =>
-          Array.from({ length: 22 }, (_, col) => {
-            const x = 24 + col * 25;
-            const y = 145 + row * 14 - Math.sin((col / 21) * Math.PI) * (86 - row * 4);
-            const on =
-              (col === 8 && row > 4 && row < 10) ||
-              (row === 8 && col > 8 && col < 17) ||
-              (col === 16 && row > 7 && row < 14);
-            return (
-              <circle
-                class={on ? 'signal' : ''}
-                cx={x}
-                cy={y}
-                r={on ? 3.8 : 1.35}
-                fill={on ? color : muted}
-                opacity={on ? 1 : 0.45}
-                style={`--delay:${(row + col) * 0.06}s`}
-              />
-            );
+          Array.from({ length: 22 }, (__, col) => {
+            if (activeKeySet.has(`${col},${row}`)) return null;
+            const p = pt(col, row);
+            return <circle cx={p.x} cy={p.y} r="1.35" fill={muted} opacity=".42" />;
           }),
         )
       }
     </g>
 
+    <!-- Active route base & animated glowing token stream -->
     <path
-      class="route"
-      d="M224 176 L224 218 L424 238 L424 308"
+      d={routeD}
       fill="none"
       stroke={color}
-      stroke-width="1.6"
+      stroke-width="3.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      opacity=".18"></path>
+    <path
+      class="route"
+      d={routeD}
+      fill="none"
+      stroke={color}
+      stroke-width="1.75"
       stroke-linecap="round"
       stroke-linejoin="round"></path>
     <path
       class="route-glow"
-      d="M224 176 L224 218 L424 238 L424 308"
+      d={routeD}
       fill="none"
       stroke={warmGlow}
       stroke-width="3.2"
       stroke-linecap="round"
-      stroke-linejoin="round"></path>
+      stroke-linejoin="round"
+      filter={`url(#glow-${variant})`}></path>
 
-    <circle class="node-halo" cx="224" cy="176" r="15" fill="none" stroke={color} opacity=".55"
-    ></circle>
-    <circle cx="224" cy="176" r="5" fill={color}></circle>
-    <circle class="node-halo" cx="424" cy="308" r="15" fill="none" stroke={color} opacity=".55"
-    ></circle>
-    <circle cx="424" cy="308" r="5" fill={color}></circle>
+    <!-- Active route nodes (exact coordinates on routeD) -->
+    <g>
+      {
+        activePoints.map((p, idx) => (
+          <circle
+            class="signal"
+            cx={p.x}
+            cy={p.y}
+            r={idx === 0 || idx === activePoints.length - 1 ? 4.6 : 3.4}
+            fill={idx % 3 === 0 ? warmGlow : color}
+            style={`--delay:${(idx * 0.14).toFixed(2)}s`}
+          />
+        ))
+      }
+    </g>
 
+    <!-- Concentric anchor rings centered on exact start, corner, and end points -->
+    <circle
+      class="node-halo"
+      cx={startPt.x}
+      cy={startPt.y}
+      r="13"
+      fill="none"
+      stroke={color}
+      stroke-width="1.1"></circle>
+    <circle
+      cx={startPt.x}
+      cy={startPt.y}
+      r="19"
+      fill="none"
+      stroke={color}
+      stroke-width=".7"
+      stroke-dasharray="3 3"
+      opacity=".45"></circle>
+
+    <circle
+      cx={midPt.x}
+      cy={midPt.y}
+      r="8"
+      fill="none"
+      stroke={warmGlow}
+      stroke-width=".9"
+      opacity=".5"></circle>
+    <circle
+      cx={turnPt.x}
+      cy={turnPt.y}
+      r="8"
+      fill="none"
+      stroke={warmGlow}
+      stroke-width=".9"
+      opacity=".5"></circle>
+
+    <circle
+      class="node-halo"
+      cx={endPt.x}
+      cy={endPt.y}
+      r="13"
+      fill="none"
+      stroke={color}
+      stroke-width="1.1"></circle>
+    <circle
+      cx={endPt.x}
+      cy={endPt.y}
+      r="19"
+      fill="none"
+      stroke={color}
+      stroke-width=".7"
+      stroke-dasharray="3 3"
+      opacity=".45"></circle>
+
+    <!-- Editorial annotations -->
     <g
-      class="float-badge"
       fill={isGuild ? '#b6c2b8' : '#576058'}
       font-family="monospace"
       font-size="10"
       letter-spacing="1"
     >
-      <text x="28" y="76">
+      <text x="28" y="54">
         {
           variant === 'labs'
             ? 'RESEARCH STUDY / OPEN QUESTIONS'
@@ -117,12 +218,14 @@ const muted = isGuild ? '#5b7165' : '#9da798';
               : 'SPARSE WORKSHOP / ACTIVE PATH'
         }
       </text>
-      <text x="28" y="458">FEWER ACTIVE WEIGHTS.</text>
-      <text x="28" y="476">MORE POSSIBILITIES.</text>
-      <text x="432" y="476">FIG. 01 · LIVING STUDY</text>
+      <text x={startPt.x - 18} y={startPt.y - 24} font-size="9" opacity=".8"> PROMPT TOKEN </text>
+      <text x={endPt.x - 42} y={endPt.y + 32} font-size="9" opacity=".8"> COMMITTED OUTPUT </text>
+      <text x="28" y="462">FEWER ACTIVE WEIGHTS.</text>
+      <text x="28" y="480">MORE POSSIBILITIES.</text>
+      <text x="424" y="480">FIG. 01 · LIVING STUDY</text>
     </g>
-    <path d="M28 498h544" stroke={muted} stroke-width=".55"></path>
-    <path d="M28 488v20m544-20v20" stroke={muted}></path>
+    <path d="M28 500h544" stroke={muted} stroke-width=".55"></path>
+    <path d="M28 490v20m544-20v20" stroke={muted}></path>
   </svg>
   <div class="art-caption">
     <span>A warm study in sparse computation</span>

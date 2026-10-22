@@ -1,4 +1,4 @@
-/* Illatio identity v2 — Warm craftsman's study & living sparse-systems workshop.
+/* Illatio identity v2.1 — Warm craftsman's study & living sparse-systems workshop.
    Shared between illatio-web and guild-web; see CONTRIBUTING.md. */
 :root {
   --bg: #f5f1e6;
@@ -6,17 +6,18 @@
   --panel: #ece6d8;
   --panel-elevated: #f8f4ea;
   --ink: #1f2622;
-  --muted: #576058;
+  --muted: #555e56;
   --line: #d4cbb8;
   --line-strong: #b9ae98;
   --accent: #b84426;
   --accent-soft: rgba(184, 68, 38, 0.12);
   --glow-a: rgba(226, 134, 72, 0.22);
   --glow-b: rgba(212, 175, 95, 0.18);
+  --card-spot: rgba(226, 134, 72, 0.11);
   --card-shadow: 0 14px 36px -18px rgba(38, 30, 18, 0.14), 0 2px 6px -1px rgba(38, 30, 18, 0.06);
   --card-shadow-hover:
     0 24px 48px -20px rgba(38, 30, 18, 0.22), 0 4px 12px -2px rgba(38, 30, 18, 0.09);
-  --card-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --card-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.68);
   --serif: 'Instrument Serif', Georgia, serif;
   --sans: 'Manrope Variable', sans-serif;
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
@@ -36,6 +37,7 @@
   --accent-soft: rgba(210, 232, 158, 0.13);
   --glow-a: rgba(210, 232, 158, 0.14);
   --glow-b: rgba(235, 172, 98, 0.12);
+  --card-spot: rgba(210, 232, 158, 0.08);
   --card-shadow: 0 18px 42px -20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.25);
   --card-shadow-hover: 0 26px 56px -18px rgba(0, 0, 0, 0.65), 0 6px 16px rgba(0, 0, 0, 0.35);
   --card-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -46,6 +48,7 @@
   --accent-soft: rgba(108, 75, 150, 0.12);
   --glow-a: rgba(143, 107, 194, 0.2);
   --glow-b: rgba(224, 159, 90, 0.16);
+  --card-spot: rgba(143, 107, 194, 0.1);
 }
 
 .property-cloud {
@@ -53,6 +56,7 @@
   --accent-soft: rgba(44, 91, 140, 0.12);
   --glow-a: rgba(78, 137, 194, 0.2);
   --glow-b: rgba(219, 169, 98, 0.15);
+  --card-spot: rgba(78, 137, 194, 0.1);
 }
 
 * {
@@ -89,7 +93,7 @@ body {
   border-radius: 50%;
   filter: blur(85px);
   opacity: 0.85;
-  will-change: transform, opacity;
+  will-change: transform;
 }
 
 .hearth-orb.orb-primary {
@@ -251,7 +255,7 @@ pre {
   color: var(--accent);
   margin-left: 8px;
   display: inline-block;
-  animation: gentle-bob 3.4s ease-in-out infinite;
+  animation: gentle-bob 3.6s ease-in-out infinite;
 }
 
 .header {
@@ -391,7 +395,6 @@ pre {
   display: inline-block;
   position: relative;
   box-shadow: 0 0 0 3px var(--accent-soft);
-  animation: lantern-breathe 2.8s ease-in-out infinite;
 }
 
 .hero {
@@ -405,7 +408,6 @@ pre {
 .hero-copy {
   position: relative;
   z-index: 1;
-  animation: rise-fade 0.8s var(--ease-out-expo) both;
 }
 
 .hero h1 {
@@ -502,7 +504,6 @@ pre {
   border-radius: 18px;
   padding: 20px 22px 16px;
   box-shadow: var(--card-shadow), var(--card-highlight);
-  animation: rise-fade 0.95s var(--ease-out-expo) 0.1s both;
   transition:
     transform 0.4s var(--ease-out-expo),
     box-shadow 0.4s var(--ease-out-expo);
@@ -519,42 +520,36 @@ pre {
   overflow: visible;
 }
 
-.field .lattice-wave {
-  animation: lattice-sway 9s ease-in-out infinite alternate;
-  transform-origin: center;
-}
-
+/* Safe SVG animations: never scale without fill-box, so coordinates stay 100% locked */
 .field .signal {
-  animation: signal-glow 3.2s ease-in-out infinite alternate;
-  animation-delay: var(--delay, 0s);
+  transform-box: fill-box;
   transform-origin: center;
+  animation: signal-breathe 2.8s ease-in-out infinite alternate;
+  animation-delay: var(--delay, 0s);
 }
 
 .field .route {
   stroke-dasharray: 700;
-  animation: draw 2.2s var(--ease-out-expo) both;
+  animation: draw 1.8s var(--ease-out-expo) both;
 }
 
 .field .route-glow {
-  stroke-dasharray: 18 160;
-  animation: token-stream 5.2s linear infinite;
+  stroke-dasharray: 26 190;
+  animation: token-stream 4.6s linear infinite;
 }
 
 .field .node-halo {
+  transform-box: fill-box;
   transform-origin: center;
-  animation: ripple-pulse 3.6s ease-in-out infinite;
-}
-
-.field .float-badge {
-  animation: gentle-bob 4.2s ease-in-out infinite alternate;
+  animation: halo-breathe 3.4s ease-in-out infinite;
 }
 
 .hero-art.is-pulsing .route-glow {
-  animation-duration: 1.4s;
+  animation-duration: 1.2s;
 }
 
 .hero-art.is-pulsing .signal {
-  animation-duration: 0.7s;
+  animation-duration: 0.6s;
 }
 
 .art-caption {
@@ -575,7 +570,7 @@ pre {
   align-items: center;
   gap: 6px;
   font-size: 10.5px;
-  padding: 4px 10px;
+  padding: 5px 11px;
   border-radius: 999px;
   border: 1px solid var(--line);
   background: var(--bg-soft);
@@ -617,13 +612,26 @@ pre {
   gap: 20px;
 }
 
+.pillar,
+.paper,
+.band,
+.model-card {
+  position: relative;
+  background-image:
+    radial-gradient(
+      420px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+      var(--card-spot),
+      transparent 70%
+    ),
+    linear-gradient(165deg, var(--panel-elevated) 0%, var(--panel) 100%);
+}
+
 .pillar {
   padding: 30px 28px;
   display: flex;
   flex-direction: column;
   gap: 18px;
   min-width: 0;
-  background: linear-gradient(170deg, var(--panel-elevated) 0%, var(--panel) 100%);
   border: 1px solid var(--line);
   border-radius: 16px;
   box-shadow: var(--card-shadow), var(--card-highlight);
@@ -692,7 +700,6 @@ pre {
 }
 
 .band {
-  background: linear-gradient(135deg, var(--panel-elevated) 0%, var(--panel) 100%);
   padding: 44px;
   display: flex;
   justify-content: space-between;
@@ -722,7 +729,6 @@ pre {
 }
 
 .paper {
-  background: linear-gradient(165deg, var(--panel-elevated) 0%, var(--panel) 100%);
   padding: 32px;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -847,7 +853,6 @@ pre {
 
 .subhero {
   padding-block: 58px 50px;
-  animation: rise-fade 0.75s var(--ease-out-expo) both;
 }
 
 .subhero h1 {
@@ -1041,15 +1046,6 @@ tr:last-child td {
   border-radius: 999px;
   background: var(--accent);
   transition: width 0.55s var(--ease-out-expo);
-  position: relative;
-}
-
-.rhythm-bar-fill::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  animation: shimmer-glide 3.2s ease-in-out infinite;
 }
 
 .metric {
@@ -1152,7 +1148,6 @@ tr:last-child td {
   padding: 32px;
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: linear-gradient(165deg, var(--panel-elevated) 0%, var(--panel) 100%);
   box-shadow: var(--card-shadow), var(--card-highlight);
   display: flex;
   flex-direction: column;
@@ -1462,7 +1457,7 @@ tr:last-child td {
   font-weight: 400;
   color: var(--accent);
   display: inline-block;
-  animation: arrow-nudge 2.4s ease-in-out infinite;
+  animation: arrow-nudge 2.6s ease-in-out infinite;
 }
 
 .network-grid {
@@ -1506,20 +1501,6 @@ tr:last-child td {
   display: none;
 }
 
-/* Scroll reveal progressive enhancement */
-.reveal-ready [data-reveal] {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.65s var(--ease-out-expo),
-    transform 0.65s var(--ease-out-expo);
-}
-
-.reveal-ready [data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 @keyframes draw {
   from {
     stroke-dashoffset: 700;
@@ -1531,17 +1512,17 @@ tr:last-child td {
 
 @keyframes token-stream {
   from {
-    stroke-dashoffset: 360;
+    stroke-dashoffset: 432;
   }
   to {
     stroke-dashoffset: 0;
   }
 }
 
-@keyframes signal-glow {
+@keyframes signal-breathe {
   from {
-    opacity: 0.35;
-    transform: scale(0.88);
+    opacity: 0.55;
+    transform: scale(0.92);
   }
   to {
     opacity: 1;
@@ -1549,24 +1530,15 @@ tr:last-child td {
   }
 }
 
-@keyframes ripple-pulse {
+@keyframes halo-breathe {
   0%,
   100% {
-    transform: scale(0.92);
-    opacity: 0.45;
+    opacity: 0.4;
+    transform: scale(0.95);
   }
   50% {
-    transform: scale(1.22);
-    opacity: 0.95;
-  }
-}
-
-@keyframes lattice-sway {
-  from {
-    transform: translateY(-2px);
-  }
-  to {
-    transform: translateY(3px);
+    opacity: 0.9;
+    transform: scale(1.14);
   }
 }
 
@@ -1575,19 +1547,7 @@ tr:last-child td {
     transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: translate3d(-28px, 22px, 0) scale(1.08);
-  }
-}
-
-@keyframes lantern-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.22);
-    opacity: 1;
+    transform: translate3d(-24px, 18px, 0) scale(1.06);
   }
 }
 
@@ -1597,7 +1557,7 @@ tr:last-child td {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-3px);
+    transform: translateY(-2.5px);
   }
 }
 
@@ -1607,27 +1567,7 @@ tr:last-child td {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(4px);
-  }
-}
-
-@keyframes shimmer-glide {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes rise-fade {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateX(3.5px);
   }
 }
 
@@ -1877,9 +1817,5 @@ tr:last-child td {
   *::after {
     animation: none !important;
     transition: none !important;
-  }
-  .reveal-ready [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
   }
 }
