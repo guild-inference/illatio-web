@@ -3,14 +3,15 @@ main = "worker.mjs"
 compatibility_date = "2026-10-01"
 workers_dev = true
 
+routes = [
+  { pattern = "illatio.dev/*", zone_name = "illatio.dev" },
+  { pattern = "labs.illatio.dev/*", zone_name = "illatio.dev" },
+  { pattern = "cloud.illatio.dev/*", zone_name = "illatio.dev" }
+]
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"
 html_handling = "auto-trailing-slash"
 not_found_handling = "404-page"
 run_worker_first = true
-
-# Custom domains served by this single host-aware Cloudflare Worker:
-# - illatio.dev
-# - labs.illatio.dev
-# - cloud.illatio.dev
