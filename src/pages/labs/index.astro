@@ -2,6 +2,32 @@
 import Shell from '../../layouts/Shell.astro';
 import Field from '../../components/Field.astro';
 import { link } from '../../lib/links';
+const sampleTrits = [
+  '+1',
+  '0',
+  '-1',
+  '0',
+  '+1',
+  '0',
+  '0',
+  '-1',
+  '+1',
+  '0',
+  '-1',
+  '+1',
+  '0',
+  '+1',
+  '-1',
+  '0',
+  '0',
+  '+1',
+  '-1',
+  '0',
+  '+1',
+  '0',
+  '-1',
+  '0',
+];
 ---
 
 <Shell
@@ -11,73 +37,93 @@ import { link } from '../../lib/links';
 >
   <section class="hero wrap">
     <div class="hero-copy">
-      <div class="eyebrow"><span class="dot"></span> Guild Labs / research initiative</div><h1>
-        A smaller footprint.<br /><em>A larger possibility.</em>
-      </h1><p class="lead">
+      <div class="eyebrow"><span class="dot"></span> Guild Labs / research initiative</div>
+      <h1>A smaller footprint.<br /><em>A larger possibility.</em></h1>
+      <p class="lead">
         How much intelligence can we build with less? Guild Labs explores the relationship between
         model architecture, numerical representation, and the machines that run them.
-      </p><div class="actions">
-        <a class="button" href="#research">Explore the research <span aria-hidden="true">↓</span></a
-        >
+      </p>
+      <div class="actions">
+        <a class="button" href="#research">
+          Explore the research <span aria-hidden="true">↓</span>
+        </a>
       </div>
-    </div><Field variant="labs" />
+    </div>
+    <Field variant="labs" />
   </section>
+
   <section id="research" class="section wrap">
     <div class="section-heading">
-      <span class="section-label">01 / Open questions</span><h2>
-        Efficiency, from the<br />model to the machine.
-      </h2>
-    </div><div class="pillars">
+      <span class="section-label">01 / Open questions</span>
+      <h2>Efficiency, from the<br />model to the machine.</h2>
+    </div>
+    <div class="pillars">
       <article class="pillar">
-        <span class="number">01</span><h3>Sparse by design</h3><p>
+        <span class="number">01</span>
+        <h3>Sparse by design</h3>
+        <p>
           How can Mixture-of-Experts architectures increase model capacity while limiting the work
           required for each token?
         </p>
-      </article><article class="pillar">
-        <span class="number">02</span><h3>Less precision.<br />More intention.</h3><p>
+      </article>
+      <article class="pillar">
+        <span class="number">02</span>
+        <h3>Less precision.<br />More intention.</h3>
+        <p>
           What can ternary and low-bit representations offer when we consider model quality,
           training, and hardware execution together?
         </p>
-      </article><article class="pillar">
-        <span class="number">03</span><h3>Local, by nature</h3><p>
+      </article>
+      <article class="pillar">
+        <span class="number">03</span>
+        <h3>Local, by nature</h3>
+        <p>
           How should model design change when GPU memory is limited, system RAM is plentiful, and
           data stays on the user’s machine?
         </p>
       </article>
     </div>
   </section>
+
   <section class="section wrap">
     <div class="statement">
       <div>
-        <span class="eyebrow">02 / Proposed model family</span><h2>
-          Introducing an ambition.<br /><em>Eon.</em>
-        </h2>
-      </div><div>
+        <span class="eyebrow">02 / Proposed model family</span>
+        <h2>Introducing an ambition.<br /><em>Eon.</em></h2>
+      </div>
+      <div>
         <p>
           Eon is the name of our proposed model family. Our interests include efficient large
           language models, sparse MoE architectures, and ternary representations.
-        </p><p>
+        </p>
+        <p>
           The architecture, scale, and release schedule are not finalized. There are no released Eon
           checkpoints or published Eon research results to announce.
-        </p><div class="notice">
+        </p>
+        <div class="notice">
           <strong>Research grant decision pending.</strong> We are awaiting a decision; funding has not
           been announced as awarded.
         </div>
       </div>
     </div>
   </section>
+
   <section class="section wrap">
     <div class="section-heading">
-      <span class="section-label">03 / Representation study</span><div>
-        <h2>What does a bit buy?</h2><p>
+      <span class="section-label">03 / Representation study</span>
+      <div>
+        <h2>What does a bit buy?</h2>
+        <p>
           A simple way to explore weight storage. These are mathematical estimates for hypothetical
           parameter counts, not Eon specifications or runtime memory requirements.
         </p>
       </div>
-    </div><div class="paper">
-      <label for="scale"
-        >Hypothetical parameter count: <output id="scale-label">35</output> billion</label
-      ><input
+    </div>
+    <div class="paper">
+      <label for="scale">
+        Hypothetical parameter count: <output id="scale-label">35</output> billion
+      </label>
+      <input
         id="scale"
         type="range"
         min="1"
@@ -85,7 +131,8 @@ import { link } from '../../lib/links';
         value="35"
         step="1"
         style="width:100%;margin:25px 0;accent-color:var(--accent)"
-      /><div class="weight-bars">
+      />
+      <div class="weight-bars">
         {
           [
             ['16-bit', 16],
@@ -94,34 +141,51 @@ import { link } from '../../lib/links';
             ['Ternary', Math.log2(3)],
           ].map(([label, bits]) => (
             <div class="weight-row">
-              <>
-                <span>{label}</span>
-                <div class="weight-track">
-                  <div class="weight-fill" style={`width:${(Number(bits) / 16) * 100}%`} />
-                </div>
-                <output data-bits={bits}>
-                  {((35e9 * Number(bits)) / 8 / 2 ** 30).toFixed(2)} GiB
-                </output>
-              </>
+              <span>{label}</span>
+              <div class="weight-track">
+                <div class="weight-fill" style={`width:${(Number(bits) / 16) * 100}%`} />
+              </div>
+              <output data-bits={bits}>
+                {((35e9 * Number(bits)) / 8 / 2 ** 30).toFixed(2)} GiB
+              </output>
             </div>
           ))
         }
-      </div><p class="small-note">
+      </div>
+      <div class="ternary-chips" aria-label="Illustrative ternary values">
+        <div
+          style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px"
+        >
+          <span class="section-label">Illustrative ternary state &#123;-1, 0, +1&#125;</span>
+          <button type="button" class="pulse-trigger" id="shuffle-trits">
+            Shuffle sample trits ✦
+          </button>
+        </div>
+        {
+          sampleTrits.map((t) => (
+            <span class="ternary-chip" data-trit={t}>
+              {t}
+            </span>
+          ))
+        }
+      </div>
+      <p class="small-note">
         Storage = parameters × bits ÷ 8 ÷ 2³⁰. Ternary uses the ideal log₂(3) ≈ 1.585-bit
         information bound. Packing, scales, mixed precision, activations, KV cache, and runtime
         workspaces add overhead. Storage reduction alone says nothing about quality or speed.
       </p>
     </div>
   </section>
+
   <section class="section wrap">
     <div class="band">
       <div>
-        <h2>Our systems work is open.</h2><p>
-          Guild is where we develop and measure local inference infrastructure today.
-        </p>
-      </div><a class="button" href={link('guild')}
-        >Explore Guild <span aria-hidden="true">↗</span></a
-      >
+        <h2>Our systems work is open.</h2>
+        <p>Guild is where we develop and measure local inference infrastructure today.</p>
+      </div>
+      <a class="button" href={link('guild')}>
+        Explore Guild <span aria-hidden="true">↗</span>
+      </a>
     </div>
   </section>
   <script>
@@ -130,6 +194,15 @@ import { link } from '../../lib/links';
       document.querySelector('#scale-label')!.textContent = slider.value;
       document.querySelectorAll<HTMLOutputElement>('[data-bits]').forEach((out) => {
         out.textContent = `${((Number(slider.value) * 1e9 * Number(out.dataset.bits)) / 8 / 2 ** 30).toFixed(2)} GiB`;
+      });
+    });
+
+    const states = ['-1', '0', '+1'];
+    document.querySelector('#shuffle-trits')?.addEventListener('click', () => {
+      document.querySelectorAll<HTMLElement>('.ternary-chip').forEach((chip, i) => {
+        const next = states[(i + Math.floor(Math.random() * 3)) % 3];
+        chip.dataset.trit = next;
+        chip.textContent = next;
       });
     });
   </script>

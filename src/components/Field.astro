@@ -5,107 +5,141 @@ interface Props {
 const { variant = 'illatio' } = Astro.props;
 const isGuild = variant === 'guild';
 const color = isGuild
-  ? '#cde698'
+  ? '#d2e89e'
   : variant === 'labs'
-    ? '#71529c'
+    ? '#6c4b96'
     : variant === 'cloud'
-      ? '#315f91'
-      : '#bd482b';
+      ? '#2c5b8c'
+      : '#b84426';
+const warmGlow = isGuild ? '#ebac62' : '#d49b4b';
 const muted = isGuild ? '#5b7165' : '#9da798';
 ---
 
-<div class="hero-art">
-  <svg class="field" viewBox="0 0 600 560" role="img" aria-labelledby={`field-title-${variant}`}>
+<div class="hero-art" data-field-card>
+  <svg class="field" viewBox="0 0 600 540" role="img" aria-labelledby={`field-title-${variant}`}>
     <title id={`field-title-${variant}`}>
-      An abstract field of connected points, with a small active path through a larger network.
+      An abstract field of connected points, with a small active path and warm traveling token
+      pulses through a larger network.
     </title>
-    <defs
-      ><radialGradient id={`fade-${variant}`}
-        ><stop offset="0%" stop-color={color} stop-opacity=".12"></stop><stop
-          offset="100%"
-          stop-color={color}
-          stop-opacity="0"></stop></radialGradient
-      ></defs
-    >
-    <circle cx="300" cy="270" r="270" fill={`url(#fade-${variant})`}></circle>
-    {
-      Array.from({ length: 17 }, (_, row) => (
-        <path
-          d={`M 20 ${150 + row * 14} Q 240 ${-80 + row * 27}, 580 ${150 + row * 17}`}
-          fill="none"
-          stroke={muted}
-          stroke-width=".6"
-          opacity=".33"
-        />
-      ))
-    }
-    {
-      Array.from({ length: 23 }, (_, col) => (
-        <path
-          d={`M ${20 + col * 25} ${150 - Math.sin((col / 22) * Math.PI) * 90} Q ${40 + col * 23} 290 ${40 + col * 23} ${400 - Math.sin((col / 22) * Math.PI) * 30}`}
-          fill="none"
-          stroke={muted}
-          stroke-width=".6"
-          opacity=".33"
-        />
-      ))
-    }
-    {
-      Array.from({ length: 17 }, (_, row) =>
-        Array.from({ length: 23 }, (_, col) => {
-          const x = 20 + col * 25;
-          const y = 150 + row * 14 - Math.sin((col / 22) * Math.PI) * (90 - row * 4);
-          const on =
-            (col === 8 && row > 5 && row < 10) ||
-            (row === 8 && col > 8 && col < 17) ||
-            (col === 16 && row > 7 && row < 14);
-          return (
-            <circle
-              class={on ? 'signal' : ''}
-              cx={x}
-              cy={y}
-              r={on ? 3.6 : 1.35}
-              fill={on ? color : muted}
-              opacity={on ? 1 : 0.5}
-              style={`--delay:${row * 0.025}s`}
-            />
-          );
-        }),
-      )
-    }
+    <defs>
+      <radialGradient id={`fade-${variant}`}>
+        <stop offset="0%" stop-color={color} stop-opacity=".18"></stop>
+        <stop offset="55%" stop-color={warmGlow} stop-opacity=".08"></stop>
+        <stop offset="100%" stop-color={color} stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+    <circle cx="310" cy="255" r="250" fill={`url(#fade-${variant})`}></circle>
+    <g class="lattice-wave">
+      {
+        Array.from({ length: 16 }, (_, row) => (
+          <path
+            d={`M 24 ${145 + row * 14} Q 245 ${-70 + row * 26}, 576 ${145 + row * 16}`}
+            fill="none"
+            stroke={muted}
+            stroke-width=".65"
+            opacity=".32"
+          />
+        ))
+      }
+      {
+        Array.from({ length: 22 }, (_, col) => (
+          <path
+            d={`M ${24 + col * 25} ${145 - Math.sin((col / 21) * Math.PI) * 86} Q ${42 + col * 23} 285 ${42 + col * 23} ${392 - Math.sin((col / 21) * Math.PI) * 28}`}
+            fill="none"
+            stroke={muted}
+            stroke-width=".65"
+            opacity=".32"
+          />
+        ))
+      }
+      {
+        Array.from({ length: 16 }, (_, row) =>
+          Array.from({ length: 22 }, (_, col) => {
+            const x = 24 + col * 25;
+            const y = 145 + row * 14 - Math.sin((col / 21) * Math.PI) * (86 - row * 4);
+            const on =
+              (col === 8 && row > 4 && row < 10) ||
+              (row === 8 && col > 8 && col < 17) ||
+              (col === 16 && row > 7 && row < 14);
+            return (
+              <circle
+                class={on ? 'signal' : ''}
+                cx={x}
+                cy={y}
+                r={on ? 3.8 : 1.35}
+                fill={on ? color : muted}
+                opacity={on ? 1 : 0.45}
+                style={`--delay:${(row + col) * 0.06}s`}
+              />
+            );
+          }),
+        )
+      }
+    </g>
+
     <path
       class="route"
-      d="M220 190 220 218 420 238 420 310"
+      d="M224 176 L224 218 L424 238 L424 308"
       fill="none"
       stroke={color}
-      stroke-width="1.3"></path>
-    <circle cx="220" cy="190" r="11" fill="none" stroke={color}></circle><circle
-      cx="420"
-      cy="310"
-      r="11"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+    <path
+      class="route-glow"
+      d="M224 176 L224 218 L424 238 L424 308"
       fill="none"
-      stroke={color}></circle>
+      stroke={warmGlow}
+      stroke-width="3.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+
+    <circle class="node-halo" cx="224" cy="176" r="15" fill="none" stroke={color} opacity=".55"
+    ></circle>
+    <circle cx="224" cy="176" r="5" fill={color}></circle>
+    <circle class="node-halo" cx="424" cy="308" r="15" fill="none" stroke={color} opacity=".55"
+    ></circle>
+    <circle cx="424" cy="308" r="5" fill={color}></circle>
+
     <g
-      fill={isGuild ? '#b3beb6' : '#5d655e'}
+      class="float-badge"
+      fill={isGuild ? '#b6c2b8' : '#576058'}
       font-family="monospace"
       font-size="10"
       letter-spacing="1"
-      ><text x="25" y="90"
-        >{
-          variant === 'labs'
-            ? 'RESEARCH / OPEN QUESTIONS'
-            : variant === 'cloud'
-              ? 'LOCAL → HOSTED / IN DEVELOPMENT'
-              : 'SPARSE SYSTEMS / ACTIVE PATH'
-        }</text
-      ><text x="25" y="470">FEWER ACTIVE WEIGHTS.</text><text x="25" y="488"
-        >MORE POSSIBILITIES.</text
-      ><text x="430" y="488">FIG. 01</text></g
     >
-    <path d="M25 510h550" stroke={muted} stroke-width=".5"></path>
-    <path d="M25 500v20m550-20v20" stroke={muted}></path>
+      <text x="28" y="76">
+        {
+          variant === 'labs'
+            ? 'RESEARCH STUDY / OPEN QUESTIONS'
+            : variant === 'cloud'
+              ? 'LOCAL DESK → HOSTED / IN DEVELOPMENT'
+              : 'SPARSE WORKSHOP / ACTIVE PATH'
+        }
+      </text>
+      <text x="28" y="458">FEWER ACTIVE WEIGHTS.</text>
+      <text x="28" y="476">MORE POSSIBILITIES.</text>
+      <text x="432" y="476">FIG. 01 · LIVING STUDY</text>
+    </g>
+    <path d="M28 498h544" stroke={muted} stroke-width=".55"></path>
+    <path d="M28 488v20m544-20v20" stroke={muted}></path>
   </svg>
   <div class="art-caption">
-    <span>A study in sparse computation</span><span>Conceptual illustration / not telemetry</span>
+    <span>A warm study in sparse computation</span>
+    <button type="button" class="pulse-trigger" data-pulse-btn>
+      <span class="dot" aria-hidden="true"></span> Send a token pulse
+    </button>
+    <span>Conceptual illustration / not telemetry</span>
   </div>
 </div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-field-card]').forEach((card) => {
+    const btn = card.querySelector<HTMLButtonElement>('[data-pulse-btn]');
+    btn?.addEventListener('click', () => {
+      card.classList.remove('is-pulsing');
+      void card.offsetWidth;
+      card.classList.add('is-pulsing');
+      setTimeout(() => card.classList.remove('is-pulsing'), 1800);
+    });
+  });
+</script>

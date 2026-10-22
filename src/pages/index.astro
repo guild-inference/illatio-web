@@ -10,89 +10,192 @@ import { link } from '../lib/links';
 >
   <section class="hero wrap">
     <div class="hero-copy">
-      <div class="eyebrow"><span class="dot"></span> Systems / research / possibility</div><h1>
-        Intelligence,<br /><em>within reach.</em>
-      </h1><p class="lead">
+      <div class="eyebrow"><span class="dot"></span> Systems / research / possibility</div>
+      <h1>Intelligence,<br /><em>within reach.</em></h1>
+      <p class="lead">
         Better AI infrastructure starts with making more of what we have. We build open inference
         systems and explore efficient models for a wider world of hardware.
-      </p><div class="actions">
-        <a class="button" href={link('guild')}>Meet Guild <span aria-hidden="true">↗</span></a><a
-          class="text-link"
-          href="#ecosystem">Explore Illatio <span aria-hidden="true">↓</span></a
-        >
-      </div><p class="small-note">Independent. Open by design. Under development.</p>
-    </div><Field />
+      </p>
+      <div class="actions">
+        <a class="button" href={link('guild')}>
+          Meet Guild <span aria-hidden="true">↗</span>
+        </a>
+        <a class="text-link" href="#ecosystem">
+          Explore Illatio <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+      <p class="small-note">Independent. Open by design. Under development.</p>
+    </div>
+    <Field />
   </section>
+
   <section id="ecosystem" class="section wrap">
     <div class="section-heading">
-      <span class="section-label">01 / Our ecosystem</span><div>
-        <h2>One ambition.<br />Three ways forward.</h2><p>
+      <span class="section-label">01 / Our ecosystem</span>
+      <div>
+        <h2>One ambition.<br />Three ways forward.</h2>
+        <p>
           From the engine on your machine to questions at the edge of model design, our work
           connects practical systems with long-term research.
         </p>
       </div>
-    </div><div class="pillars">
+    </div>
+    <div class="pillars">
       <article class="pillar">
-        <span class="number">01</span><span class="status"
-          ><span class="dot"></span> Open source · active development</span
-        ><h3>Guild</h3><p>
+        <span class="number">01</span>
+        <span class="status"><span class="dot"></span> Open source · active development</span>
+        <h3>Guild</h3>
+        <p>
           A native inference engine for Mixture-of-Experts models. Put GPU memory, system RAM, and
           CPU compute to work together.
-        </p><a class="text-link" href={link('guild')}
-          >Discover the engine <span aria-hidden="true">↗</span></a
-        >
-      </article><article class="pillar">
-        <span class="number">02</span><span class="status">Research initiative</span><h3>
-          Guild Labs
-        </h3><p>
+        </p>
+        <a class="text-link" href={link('guild')}>
+          Discover the engine <span aria-hidden="true">↗</span>
+        </a>
+      </article>
+      <article class="pillar">
+        <span class="number">02</span>
+        <span class="status">Research initiative</span>
+        <h3>Guild Labs</h3>
+        <p>
           Exploring efficient language models, sparse architectures, and ternary representations.
           Home of the proposed Eon family.
-        </p><a class="text-link" href={link('labs')}
-          >Explore our questions <span aria-hidden="true">↗</span></a
-        >
-      </article><article class="pillar">
-        <span class="number">03</span><span class="status">In development</span><h3>
-          Illatio Cloud
-        </h3><p>
+        </p>
+        <a class="text-link" href={link('labs')}>
+          Explore our questions <span aria-hidden="true">↗</span>
+        </a>
+      </article>
+      <article class="pillar">
+        <span class="number">03</span>
+        <span class="status">In development</span>
+        <h3>Illatio Cloud</h3>
+        <p>
           Our planned hosted inference platform. Taking the systems thinking behind Guild toward a
           managed experience.
-        </p><a class="text-link" href={link('cloud')}
-          >See the direction <span aria-hidden="true">↗</span></a
-        >
+        </p>
+        <a class="text-link" href={link('cloud')}>
+          See the direction <span aria-hidden="true">↗</span>
+        </a>
       </article>
     </div>
   </section>
+
   <section class="section wrap">
     <div class="statement">
       <div>
-        <span class="eyebrow">02 / A different starting point</span><h2>
-          The machine you have.<br /><em>The possibility inside it.</em>
-        </h2>
-      </div><div>
-        <p>
+        <span class="eyebrow">02 / A different starting point</span>
+        <h2>The machine you have.<br /><em>The possibility inside it.</em></h2>
+        <p style="margin-top:22px">
           Useful intelligence should not depend on having the newest accelerator. Sparse models give
           us another path: many parameters, only a fraction of the experts active for each token.
-        </p><p>
+        </p>
+        <p>
           Guild turns that observation into systems software. Labs asks how the models themselves
           could become more efficient. Cloud explores how to make those systems easier to access.
-        </p><a class="text-link" href="https://github.com/guild-inference"
-          >Follow the work in the open <span aria-hidden="true">↗</span></a
-        >
+        </p>
+        <a class="text-link" href="https://github.com/guild-inference">
+          Follow the work in the open <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <div class="paper">
+        <div class="eyebrow">Conceptual memory harmony / Guild tiers</div>
+        <h3 style="font-family:var(--serif);font-size:2rem;font-weight:400">
+          Every tier has a role to play.
+        </h3>
+        <div class="token-controls" role="group" aria-label="Conceptual hardware balance">
+          <button type="button" aria-pressed="true" data-harmony="desk">
+            Workstation balance
+          </button>
+          <button type="button" aria-pressed="false" data-harmony="server"> Large-RAM host </button>
+          <button type="button" aria-pressed="false" data-harmony="mapped">
+            Mapped-file tier
+          </button>
+        </div>
+        <div class="rhythm-stage">
+          <div class="rhythm-lane">
+            <div class="rhythm-lane-head">
+              <span>Device VRAM</span>
+              <span id="harmony-vram-label">Dense path, attention state & scratch</span>
+            </div>
+            <div class="rhythm-bar">
+              <div id="harmony-vram-bar" class="rhythm-bar-fill" style="width: 34%"></div>
+            </div>
+          </div>
+          <div class="rhythm-lane">
+            <div class="rhythm-lane-head">
+              <span>Pinned / Host RAM</span>
+              <span id="harmony-ram-label">RAM-resident expert complement & host KV</span>
+            </div>
+            <div class="rhythm-bar">
+              <div id="harmony-ram-bar" class="rhythm-bar-fill" style="width: 78%"></div>
+            </div>
+          </div>
+          <div class="rhythm-lane">
+            <div class="rhythm-lane-head">
+              <span>Mapped GPACK / CPU Compute</span>
+              <span id="harmony-cpu-label">Zero-copy views & quantized expert threads</span>
+            </div>
+            <div class="rhythm-bar">
+              <div id="harmony-cpu-bar" class="rhythm-bar-fill" style="width: 56%"></div>
+            </div>
+          </div>
+        </div>
+        <p id="harmony-caption" class="small-note" role="status">
+          Conceptual illustration of Guild’s memory hierarchy: VRAM holds the hot dense path while
+          host RAM and mapped containers hold routed experts.
+        </p>
       </div>
     </div>
   </section>
+
   <section class="section wrap">
     <div class="band">
       <div>
-        <span class="eyebrow">Start with what exists today</span><h2>
-          An engine you can read,<br />build, and run.
-        </h2><p>
+        <span class="eyebrow">Start with what exists today</span>
+        <h2>An engine you can read,<br />build, and run.</h2>
+        <p>
           Explore Guild’s source-backed documentation, model compatibility, and measured
           performance.
         </p>
-      </div><a class="button" href={link('docs')}
-        >Start building <span aria-hidden="true">↗</span></a
-      >
+      </div>
+      <a class="button" href={link('docs')}>
+        Start building <span aria-hidden="true">↗</span>
+      </a>
     </div>
   </section>
+  <script>
+    const presets: Record<string, { vram: string; ram: string; cpu: string; note: string }> = {
+      desk: {
+        vram: '34%',
+        ram: '78%',
+        cpu: '56%',
+        note: 'Conceptual illustration of Guild’s memory hierarchy: VRAM holds the hot dense path while host RAM and mapped containers hold routed experts.',
+      },
+      server: {
+        vram: '26%',
+        ram: '92%',
+        cpu: '74%',
+        note: 'On large-RAM or dual-socket hosts, NUMA-interleaved system memory can hold the full routed expert complement alongside host KV.',
+      },
+      mapped: {
+        vram: '30%',
+        ram: '48%',
+        cpu: '84%',
+        note: 'When experts exceed locked host RAM, GPACK exposes 4 KiB-aligned tensors directly from the OS page cache without extra copies.',
+      },
+    };
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-harmony]');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        const preset = presets[btn.dataset.harmony || 'desk'];
+        if (!preset) return;
+        document.querySelector<HTMLElement>('#harmony-vram-bar')!.style.width = preset.vram;
+        document.querySelector<HTMLElement>('#harmony-ram-bar')!.style.width = preset.ram;
+        document.querySelector<HTMLElement>('#harmony-cpu-bar')!.style.width = preset.cpu;
+        document.querySelector('#harmony-caption')!.textContent = preset.note;
+      });
+    });
+  </script>
 </Shell>
