@@ -16,10 +16,10 @@ interface Props {
 const { title, description, property = 'illatio', path = '', noindex = false } = Astro.props;
 const preview = import.meta.env.PUBLIC_DEPLOYMENT !== 'production';
 const names: Record<Property, string> = {
-  illatio: 'Illatio',
-  guild: 'Guild',
+  illatio: 'The Guild Inference Project',
+  guild: 'Guild Engine',
   labs: 'Guild Labs',
-  cloud: 'Illatio Cloud',
+  cloud: 'Guild Cloud',
   docs: 'Guild Docs',
   models: 'Guild Models',
 };
@@ -51,7 +51,9 @@ const names: Record<Property, string> = {
     <div class="paper-grain" aria-hidden="true"></div>
     <a class="skip" href="#main">Skip to content</a>
     <div class="topline wrap">
-      <a href={link('illatio')}>ILLATIO ECOSYSTEM // SPARSE MOE INFERENCE INFRASTRUCTURE</a>
+      <a href={link('illatio')}>
+        THE GUILD INFERENCE PROJECT // SPARSE MOE INFERENCE INFRASTRUCTURE
+      </a>
       <span>
         {preview ? 'PREVIEW ENVIRONMENT' : 'GUILD CORE 140F6F7'}{' '}
         <i aria-hidden="true">●</i>
@@ -62,7 +64,9 @@ const names: Record<Property, string> = {
         <svg viewBox="0 0 32 32" aria-hidden="true">
           <path d="M5 26 16 5l11 21H5Zm6-7h10M16 5v21"></path>
         </svg>
-        {names[property]}<span class="brand-dot">.</span>
+        <span>
+          {names[property]}<span class="brand-dot">.</span>
+        </span>
       </a>
       <details class="mobile-menu">
         <summary>Menu <span aria-hidden="true">+</span></summary>
@@ -93,7 +97,9 @@ const names: Record<Property, string> = {
     <main id="main"><slot /></main>
     <footer class="footer wrap">
       <div class="footer-top">
-        <a class="wordmark" href={link('illatio')}>Illatio<span>.</span></a>
+        <a class="wordmark" href={link('illatio')}>
+          The Guild Inference Project<span>.</span>
+        </a>
         <p>Make more of the<br />hardware we have.</p>
       </div>
       <div class="footer-links">
@@ -109,11 +115,14 @@ const names: Record<Property, string> = {
         </nav>
         <div>
           <a href="https://github.com/guild-inference">Source & contributions ↗</a>
-          <p>Illatio is under development.<br />Guild Core is open source under MIT.</p>
+          <p>
+            The Guild Inference Project is under development.<br />Guild Core is open source under
+            MIT.
+          </p>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>Illatio / {new Date().getUTCFullYear()}</span>
+        <span>The Guild Inference Project / {new Date().getUTCFullYear()}</span>
         <span>Local systems. Open possibilities.</span>
       </div>
     </footer>

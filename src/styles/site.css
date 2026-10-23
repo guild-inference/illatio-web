@@ -903,9 +903,10 @@ pre {
 .wordmark {
   font-family: var(--sans);
   font-weight: 800;
-  font-size: clamp(3.5rem, 8vw, 6.5rem);
-  letter-spacing: -0.055em;
-  line-height: 1;
+  font-size: clamp(2.1rem, 4.4vw, 4rem);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  max-width: 720px;
 }
 
 .wordmark span {
@@ -1759,7 +1760,9 @@ tr:last-child td {
     justify-content: space-between;
   }
   .brand {
-    font-size: 19px;
+    font-size: 14.5px;
+    white-space: normal;
+    line-height: 1.15;
   }
   .desktop-nav {
     display: none;
