@@ -38,7 +38,7 @@ test('keyboard navigation, warm harmony toggles, token pulse, and storage explor
   await page.goto('/');
   await page.keyboard.press('Tab');
   await expect(page.getByText('Skip to content')).toBeFocused();
-  await page.getByRole('button', { name: 'Send a token pulse' }).click();
+  await page.getByRole('button', { name: 'Trace the stack' }).click();
   await expect(page.locator('[data-field-card]')).toHaveClass(/is-pulsing/);
   await page.getByRole('button', { name: 'Large-RAM host' }).click();
   await expect(page.locator('#harmony-caption')).toContainText('NUMA-interleaved');

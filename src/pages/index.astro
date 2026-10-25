@@ -1,6 +1,7 @@
 ---
 import Shell from '../layouts/Shell.astro';
-import Field from '../components/Field.astro';
+import Constellation from '../components/Constellation.astro';
+import '../styles/home.css';
 import { link } from '../lib/links';
 ---
 
@@ -29,7 +30,7 @@ import { link } from '../lib/links';
       </div>
       <p class="small-note">Independent. Open by design. Under development.</p>
     </div>
-    <Field />
+    <Constellation />
   </section>
 
   <section id="ecosystem" class="section wrap">
@@ -43,42 +44,90 @@ import { link } from '../lib/links';
         </p>
       </div>
     </div>
-    <div class="pillars">
-      <article class="pillar">
-        <span class="number">01</span>
-        <span class="status"><span class="dot"></span> Open source · active development</span>
-        <h3>Guild</h3>
+    <div class="pillars ecosystem">
+      <article class="pillar tone-guild">
+        <div class="pillar-top">
+          <span class="number">01</span>
+          <span class="status"><span class="dot"></span> Open source · active development</span>
+        </div>
+        <div class="pillar-art" aria-hidden="true">
+          <div class="expert-grid">
+            {
+              Array.from({ length: 32 }, (_, i) => (
+                <i
+                  class={[2, 7, 12, 17, 21, 26, 29, 31].includes(i) ? 'on' : ''}
+                  style={`--i:${i % 8}`}
+                />
+              ))
+            }
+          </div>
+          <span class="pillar-art-note">8 of 256 experts per token</span>
+        </div>
+        <h3>Guild Engine</h3>
         <p>
           A native inference engine for Mixture-of-Experts models. Put GPU memory, system RAM, and
           CPU compute to work together.
         </p>
-        <a class="text-link" href={link('guild')}>
+        <a class="text-link stretched" href={link('guild')}>
           Discover the engine <span aria-hidden="true">↗</span>
         </a>
+        <span class="pillar-domain">guild.illatio.dev</span>
       </article>
-      <article class="pillar">
-        <span class="number">02</span>
-        <span class="status">Research initiative</span>
+      <article class="pillar tone-labs">
+        <div class="pillar-top">
+          <span class="number">02</span>
+          <span class="status">Research initiative</span>
+        </div>
+        <div class="pillar-art" aria-hidden="true">
+          <div class="trit-row">
+            {
+              ['+1', '0', '−1', '+1', '0', '0', '−1', '+1', '0', '−1'].map((t, i) => (
+                <i class={t === '0' ? 'zero' : ''} style={`--i:${i}`}>
+                  {t}
+                </i>
+              ))
+            }
+          </div>
+          <span class="pillar-art-note">log₂3 ≈ 1.585 bits per ternary weight</span>
+        </div>
         <h3>Guild Labs</h3>
         <p>
           Exploring efficient language models, sparse architectures, and ternary representations.
           Home of the proposed Eon family.
         </p>
-        <a class="text-link" href={link('labs')}>
+        <a class="text-link stretched" href={link('labs')}>
           Explore our questions <span aria-hidden="true">↗</span>
         </a>
+        <span class="pillar-domain">labs.illatio.dev</span>
       </article>
-      <article class="pillar">
-        <span class="number">03</span>
-        <span class="status">In development</span>
+      <article class="pillar tone-cloud">
+        <div class="pillar-top">
+          <span class="number">03</span>
+          <span class="status">In development</span>
+        </div>
+        <div class="pillar-art" aria-hidden="true">
+          <div class="rack">
+            {
+              [0, 1, 2].map((r) => (
+                <div class="rack-unit" style={`--i:${r}`}>
+                  <b />
+                  <span />
+                  <span />
+                </div>
+              ))
+            }
+          </div>
+          <span class="pillar-art-note">Planned · nothing hosted yet</span>
+        </div>
         <h3>Guild Cloud</h3>
         <p>
           Our planned hosted inference platform under The Guild Inference Project. Taking the
           systems thinking behind Guild toward a managed experience.
         </p>
-        <a class="text-link" href={link('cloud')}>
+        <a class="text-link stretched" href={link('cloud')}>
           See the direction <span aria-hidden="true">↗</span>
         </a>
+        <span class="pillar-domain">cloud.illatio.dev</span>
       </article>
     </div>
   </section>
@@ -153,7 +202,41 @@ import { link } from '../lib/links';
   </section>
 
   <section class="section wrap">
-    <div class="band">
+    <div class="section-heading">
+      <span class="section-label">03 / How we work</span>
+      <div>
+        <h2>Measured. Open.<br /><em>Built for real machines.</em></h2>
+      </div>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <span class="principle-index">i.</span>
+        <h3>Measured, not claimed</h3>
+        <p>
+          A benchmark names its model, quantization, hardware, context, and decoding configuration,
+          or it is not published.
+        </p>
+      </div>
+      <div class="principle">
+        <span class="principle-index">ii.</span>
+        <h3>Open by design</h3>
+        <p>
+          Guild Core is open source under MIT. Its documentation is pinned to the exact source
+          commit it describes.
+        </p>
+      </div>
+      <div class="principle">
+        <span class="principle-index">iii.</span>
+        <h3>The hardware you have</h3>
+        <p>
+          One graphics card, plenty of system RAM, and a CPU are a starting point, not a limitation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="band glow-band">
       <div>
         <span class="eyebrow">Start with what exists today</span>
         <h2>An engine you can read,<br />build, and run.</h2>
@@ -162,9 +245,14 @@ import { link } from '../lib/links';
           performance.
         </p>
       </div>
-      <a class="button" href={link('docs')}>
-        Start building <span aria-hidden="true">↗</span>
-      </a>
+      <div class="band-actions">
+        <a class="button" href={link('docs')}>
+          Start building <span aria-hidden="true">↗</span>
+        </a>
+        <a class="text-link" href={link('models')}>
+          Browse models <span aria-hidden="true">↗</span>
+        </a>
+      </div>
     </div>
   </section>
   <script>
