@@ -53,3 +53,163 @@ a {
 [hidden] {
   display: none !important;
 }
+
+/* ----------------------------------------------------- shared neutrals --
+   Every site uses these two neutral families and sets only its own accent. */
+:root {
+  --dark-canvas: #0f1110;
+  --dark-deep: #0a0b0a;
+  --dark-surface: #171a18;
+  --dark-raise: #1e221f;
+  --dark-ink: #ebede8;
+  --dark-soft: #a2a8a1;
+  --light-canvas: #eeede8;
+  --light-surface: #e4e3dc;
+  --light-raise: #d9d8d0;
+  --light-ink: #141519;
+  --light-soft: #53555c;
+}
+.theme-dark {
+  --sc-canvas: var(--dark-canvas);
+  --sc-surface: var(--dark-surface);
+  --raise: var(--dark-raise);
+  --sc-ink: var(--dark-ink);
+  --sc-ink-soft: var(--dark-soft);
+  --sc-hairline: color-mix(in oklab, #ebede8 12%, transparent);
+  --sc-hairline-strong: color-mix(in oklab, #ebede8 22%, transparent);
+  --sc-edge: inset 0 1px 0 color-mix(in oklab, #ebede8 8%, transparent);
+  --sc-shadow-color: 140 10% 2%;
+  color: var(--sc-ink);
+}
+.theme-light {
+  --sc-canvas: var(--light-canvas);
+  --sc-surface: var(--light-surface);
+  --raise: var(--light-raise);
+  --sc-ink: var(--light-ink);
+  --sc-ink-soft: var(--light-soft);
+  --sc-hairline: color-mix(in oklab, #141519 14%, transparent);
+  --sc-hairline-strong: color-mix(in oklab, #141519 26%, transparent);
+  --sc-edge: inset 0 1px 0 color-mix(in oklab, #ffffff 60%, transparent);
+  --sc-shadow-color: 60 8% 40%;
+  color: var(--sc-ink);
+}
+body.theme-dark,
+body.theme-light {
+  background: var(--sc-canvas);
+}
+
+/* ------------------------------------------------------------ top nav -- */
+.gnav {
+  position: relative;
+  z-index: 70;
+  border-bottom: 1px solid var(--sc-hairline);
+  background: var(--sc-canvas);
+}
+.gnav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-5);
+  min-height: 3rem;
+  padding: 0 var(--sc-gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.gnav__home {
+  font-family: var(--sc-font-display);
+  font-weight: 700;
+  font-size: var(--sc-t-sm);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.gnav__list {
+  display: flex;
+  gap: var(--sc-1);
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.gnav__list a {
+  display: block;
+  padding: 0.85rem var(--sc-3);
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+.gnav a:hover {
+  color: var(--sc-ink);
+}
+.gnav__list a[aria-current='page'],
+.gnav__home[aria-current='page'] {
+  color: var(--sc-ink);
+  border-bottom-color: var(--sc-accent);
+}
+/* Phones: the project name takes its own row so every item stays visible without scrolling. */
+@media (max-width: 640px) {
+  .gnav__inner {
+    flex-wrap: wrap;
+    gap: 0 var(--sc-3);
+    padding-top: var(--sc-2);
+  }
+  .gnav__home {
+    flex-basis: 100%;
+  }
+  .gnav__list {
+    margin-left: calc(-1 * var(--sc-2));
+    flex-wrap: wrap;
+  }
+  .gnav__list a {
+    padding: 0.6rem var(--sc-2);
+  }
+}
+
+/* ------------------------------------------------------------- footer -- */
+.gfoot {
+  border-top: 1px solid var(--sc-hairline);
+  background: var(--sc-canvas);
+}
+.gfoot__inner {
+  max-width: var(--sc-maxw);
+  margin: 0 auto;
+  padding: var(--sc-7) var(--sc-gutter) var(--sc-6);
+}
+.gfoot__sites {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 var(--sc-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.gfoot__sites a {
+  display: grid;
+  gap: 2px;
+  padding: var(--sc-3) 0;
+  border-bottom: 1px solid var(--sc-hairline);
+  text-decoration: none;
+}
+.gfoot__name {
+  font-weight: 600;
+  font-size: var(--sc-t-sm);
+}
+.gfoot__where {
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft);
+  overflow-wrap: anywhere;
+}
+.gfoot__sites a:hover .gfoot__name {
+  color: var(--sc-accent);
+}
+.gfoot__small {
+  margin: var(--sc-5) 0 0;
+  font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft);
+}
+@media (max-width: 640px) {
+  .gfoot__sites {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

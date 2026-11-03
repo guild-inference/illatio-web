@@ -1,0 +1,34 @@
+---
+// The one footer for every site of The Guild Inference Project. Identical in illatio-web and
+// guild-web.
+import { link, domains } from '../lib/links';
+const sites: [string, string, string][] = [
+  ['The Guild Inference Project', link('illatio'), domains.illatio],
+  ['Engine', link('guild'), domains.guild],
+  ['Docs', link('docs'), domains.docs],
+  ['Models', link('models'), domains.models],
+  ['Labs', link('labs'), domains.labs],
+  ['GitHub', 'https://github.com/guild-inference', 'github.com/guild-inference'],
+];
+---
+
+<footer class="gfoot">
+  <nav class="gfoot__inner" aria-label="Sites of The Guild Inference Project">
+    <ul class="gfoot__sites">
+      {
+        sites.map(([name, href, where]) => (
+          <li>
+            <a {href}>
+              <span class="gfoot__name">{name}</span>
+              <span class="gfoot__where">{where}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="gfoot__small">
+      The Guild Inference Project, {new Date().getUTCFullYear()}. Guild is open source under the MIT
+      license and under active development.
+    </p>
+  </nav>
+</footer>

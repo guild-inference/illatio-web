@@ -2,13 +2,13 @@
 
 ## 1. Host-Aware Cloudflare Worker Architecture (`worker.mjs` + `wrangler.toml`)
 
-`illatio-web` is packaged as a **Cloudflare Worker with Static Assets** (`wrangler.toml` `main = "worker.mjs"`, `[assets] directory = "./dist"`). A single Worker deployment serves all three top-level Illatio properties based on the incoming request hostname (or `?domain=labs|cloud` query override on `*.workers.dev`):
+`illatio-web` is packaged as a **Cloudflare Worker with Static Assets** (`wrangler.toml` `main = "worker.mjs"`, `[assets] directory = "./dist"`). A single Worker deployment serves illatio.dev and labs.illatio.dev by request hostname (or the `?domain=labs` override on `*.workers.dev`), and answers cloud.illatio.dev with a redirect:
 
-| Property      | Canonical Custom Domain     | Worker Route Resolution (`worker.mjs`) |
-| ------------- | --------------------------- | -------------------------------------- |
-| Illatio Home  | `https://illatio.dev`       | `/` → `dist/index.html`                |
-| Guild Labs    | `https://labs.illatio.dev`  | `/` → `dist/labs/index.html`           |
-| Illatio Cloud | `https://cloud.illatio.dev` | `/` → `dist/cloud/index.html`          |
+| Property     | Canonical Custom Domain     | Worker Route Resolution (`worker.mjs`) |
+| ------------ | --------------------------- | -------------------------------------- |
+| Illatio Home | `https://illatio.dev`       | `/` → `dist/index.html`                |
+| Guild Labs   | `https://labs.illatio.dev`  | `/` → `dist/labs/index.html`           |
+| (folded)     | `https://cloud.illatio.dev` | 301 to `https://illatio.dev/#illatio`  |
 
 ## 2. Deploying the Cloudflare Worker
 
@@ -31,7 +31,7 @@ npm run deploy:worker
 5. Under **Settings → Domains & Routes**, attach custom domains:
    - `illatio.dev`
    - `labs.illatio.dev`
-   - `cloud.illatio.dev`
+   - `cloud.illatio.dev` (kept so the Worker can answer it with a 301)
 
 ### Option C: GitHub Actions Automated Worker Deployment
 

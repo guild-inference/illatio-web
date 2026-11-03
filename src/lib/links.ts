@@ -1,9 +1,8 @@
-export type Property = 'illatio' | 'guild' | 'labs' | 'cloud' | 'docs' | 'models';
+export type Property = 'illatio' | 'guild' | 'labs' | 'docs' | 'models';
 export const domains: Record<Property, string> = {
   illatio: 'illatio.dev',
   guild: 'guild.illatio.dev',
   labs: 'labs.illatio.dev',
-  cloud: 'cloud.illatio.dev',
   docs: 'docs.guild.illatio.dev',
   models: 'models.guild.illatio.dev',
 };
@@ -11,7 +10,6 @@ const app = 'illatio';
 const groups = {
   illatio: 'illatio',
   labs: 'illatio',
-  cloud: 'illatio',
   guild: 'guild',
   docs: 'guild',
   models: 'guild',

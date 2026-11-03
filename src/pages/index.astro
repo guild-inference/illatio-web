@@ -1,7 +1,6 @@
 ---
 import Stage from '../layouts/Stage.astro';
 import ExpertField from '../components/ExpertField.astro';
-import Ecosystem from '../components/Ecosystem.astro';
 import '../styles/home.css';
 import { link } from '../lib/links';
 const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
@@ -9,27 +8,17 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
 
 <Stage
   title="The Guild Inference Project: intelligence, within reach"
-  description="Open inference systems, efficient model research, and a planned cloud platform. The Guild Inference Project builds AI infrastructure around the hardware people already have."
-  theme="#0e0e0c"
+  description="Open inference systems and efficient model research. The Guild Inference Project builds AI infrastructure around the hardware people already have."
+  theme="#0f1110"
+  current="project"
 >
   <main id="main" class="poster">
-    <section class="hero" data-sc-act="pin" data-sc-span="1.5" data-sc-drift="#0e0e0c">
+    <section class="hero" data-sc-act="pin" data-sc-span="1.3" data-sc-drift="#0f1110">
       <div class="hero__stage" data-sc-stage>
         <div class="hero__far" aria-hidden="true" data-sc-parallax="-1.7"><span>512</span></div>
         <div class="hero__band" data-sc-parallax="-0.8">
           <ExpertField class="field--band" id="hero-field" />
         </div>
-        <header class="mast">
-          <a class="mast__mark" href={link('illatio')}>The Guild<br />Inference Project</a>
-          <nav class="mast__nav" aria-label="The Guild Inference Project">
-            <a href={link('guild')}>Guild</a>
-            <a href={link('labs')}>Labs</a>
-            <a href={link('cloud')}>Cloud</a>
-            <a href={link('docs')}>Docs</a>
-            <a href={link('models')}>Models</a>
-            <a href="https://github.com/guild-inference">GitHub</a>
-          </nav>
-        </header>
         <h1 class="hero__title">
           <span class="hero__line">Intelligence,</span>
           <span class="hero__line">within reach<span class="hot">.</span></span>
@@ -47,7 +36,7 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
       </div>
     </section>
 
-    <section class="quiet sc-section" data-sc-act="flow" data-sc-drift="#121210">
+    <section class="quiet sc-section" data-sc-act="flow" data-sc-drift="#0f1110">
       <div class="sc-wrap">
         <div class="quiet__text sc-stack" data-sc-in data-sc-stagger="70">
           <p class="quiet__lede">
@@ -66,26 +55,27 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
       id="sparse"
       class="peak"
       data-sc-act="pin"
-      data-sc-span="3.4"
-      data-sc-drift="#080807"
+      data-sc-span="2.4"
+      data-sc-drift="#0a0b0a"
       aria-labelledby="peak-title"
     >
       <div class="peak__stage" data-sc-stage data-peak-stage>
         <div class="peak__side">
-          <h2 id="peak-title" class="peak__title" data-sc-cue="0 2 0.06" data-sc-kinetic="words">
-            Ten of 512.
-          </h2>
-          <div class="peak__beats">
-            <p data-sc-cue="0 0.16 0 0.35">
+          <!-- prettier-ignore -->
+          <h2 id="peak-title" class="peak__title" data-sc-cue="0 2 0.06" data-sc-kinetic="words">Ten of 512.</h2>
+          <!-- One beat is legible at a time: each fades out before the next fades in. -->
+          <div class="peak__beats" data-noscript-unstack>
+            <p data-sc-cue="0 0.17 0 0.18">
               A dense model wakes every one of these for every word.
             </p>
-            <p data-sc-cue="0.13 0.84 0.08 0.1">
+            <p data-sc-cue="0.17 0.83 0.06 0.06">
               Qwen3.8 has 512 experts in each layer and sends each word to ten of them, plus one
               shared expert.
             </p>
-            <p data-sc-cue="0.82 2 0.2">
+            <p data-sc-cue="0.83 2 0.025 0.3">
               Ten at a time is work a graphics card, system RAM and a CPU can share. That is the
-              idea Guild is built on.
+              idea Guild is built on. <a href={link('guild')}>The engine page</a> shows it with measured
+              numbers.
             </p>
           </div>
           <p class="peak__tokens" aria-hidden="true">
@@ -118,7 +108,7 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
       </div>
     </section>
 
-    <section class="prop prop--guild" data-sc-act="flow" data-sc-drift="#100f0d">
+    <section class="prop prop--guild" data-sc-act="flow" data-sc-drift="#0f1110">
       <div class="sc-wrap prop__grid">
         <div class="prop__word" data-sc-reveal="left" data-sc-reveal-at="0.08 0.4">
           <h2>Guild</h2>
@@ -135,14 +125,15 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
       </div>
     </section>
 
-    <section class="prop prop--labs" data-sc-act="flow" data-sc-drift="#100f0d">
+    <section class="prop prop--labs" data-sc-act="flow" data-sc-drift="#0f1110">
       <div class="sc-wrap prop__grid">
         <div class="prop__word" data-sc-reveal="right" data-sc-reveal-at="0.08 0.4">
           <h2>Labs</h2>
         </div>
         <div class="prop__text sc-stack" data-sc-in data-sc-stagger="60">
           <p class="prop__status">
-            Guild Labs. Research. Eon is a proposal; a grant decision is pending.
+            Guild Labs. Research. Apprentice, Journeyman and Magistrate: ternary models in progress,
+            no results yet.
           </p>
           <p>
             Questions about efficient models: sparse architectures, ternary weights, and what
@@ -155,25 +146,14 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
       </div>
     </section>
 
-    <section class="prop prop--cloud" data-sc-act="flow" data-sc-drift="#13120f">
-      <div class="sc-wrap prop__grid">
-        <div class="prop__word" data-sc-reveal="left" data-sc-reveal-at="0.08 0.4">
-          <h2>Cloud</h2>
-        </div>
-        <div class="prop__text sc-stack" data-sc-in data-sc-stagger="60">
-          <p class="prop__status">Guild Cloud. In development. Nothing is hosted yet.</p>
-          <p>
-            A planned hosted platform that carries Guild's systems work to a managed service, with
-            the same interface you can run at home today.
-          </p>
-          <a class="prop__link" href={link('cloud')}
-            >See where Cloud stands <span aria-hidden="true">↗</span></a
-          >
-        </div>
+    <section id="illatio" class="illatio sc-section" aria-labelledby="illatio-title">
+      <div class="sc-wrap illatio__inner" data-sc-in data-sc-stagger="60">
+        <h2 id="illatio-title">Illatio</h2>
+        <p>Illatio, a hosted version of Guild. Parked while we focus on the engine and research.</p>
       </div>
     </section>
 
-    <section class="rules" data-sc-act="pin" data-sc-span="2.3" data-sc-drift="#17140f">
+    <section class="rules" data-sc-act="pin" data-sc-span="1.8" data-sc-drift="#0f1110">
       <div class="rules__stage" data-sc-stage>
         <h2 class="visually-hidden">How we work</h2>
         <div class="rule rule--a" data-sc-cue="0 1.5 0 0.3">
@@ -183,14 +163,14 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
             or it is not published.
           </p>
         </div>
-        <div class="rule rule--b" data-sc-cue="0.28 1.5 0.12 0.3">
+        <div class="rule rule--b" data-sc-cue="0.22 1.5 0.12 0.3">
           <p class="rule__big">Open by design.</p>
           <p class="rule__small">
             Guild Core is open source under MIT. Its documentation is pinned to the exact commit it
             describes.
           </p>
         </div>
-        <div class="rule rule--c" data-sc-cue="0.58 1.5 0.12 0.3">
+        <div class="rule rule--c" data-sc-cue="0.48 1.5 0.12 0.3">
           <p class="rule__big">The machine you have.</p>
           <p class="rule__small">
             One graphics card, plenty of system RAM and a CPU are a starting point, not a
@@ -200,7 +180,7 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
       </div>
     </section>
 
-    <footer class="close" id="start">
+    <section class="close theme-light" id="start" aria-label="Start">
       <div class="sc-wrap close__inner">
         <p class="close__lede">
           Start with what exists today: an engine you can read, build and run on your own machine.
@@ -217,13 +197,8 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
             typed on this page.
           </figcaption>
         </figure>
-        <Ecosystem />
-        <div class="close__base">
-          <span>The Guild Inference Project, {new Date().getUTCFullYear()}</span>
-          <span>Under development. Guild Core is open source under MIT.</span>
-        </div>
       </div>
-    </footer>
+    </section>
   </main>
   <script>
     import { actProgress, whileVisible } from '../scripts/engine';
@@ -257,9 +232,9 @@ const sentence = ['Make', 'more', 'of', 'the', 'hardware', 'we', 'have.'];
     const input = document.querySelector<HTMLInputElement>('#route-word');
     const result = document.querySelector<HTMLElement>('#route-result');
     const routes = tokens.map((t) => route(t.textContent || ''));
-    const DENSE_END = 0.13;
+    const DENSE_END = 0.14;
     const WORDS_START = 0.2;
-    const WORDS_END = 0.84;
+    const WORDS_END = 0.8;
     let state = '';
 
     function render(p: number) {

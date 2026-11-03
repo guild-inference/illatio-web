@@ -1,12 +1,11 @@
 # Illatio web
 
-Three working public properties, built separately from Guild Core:
+Two public properties, built separately from Guild Core:
 
-| Property      | Production domain   | Preview path |
-| ------------- | ------------------- | ------------ |
-| Illatio       | `illatio.dev`       | `/`          |
-| Guild Labs    | `labs.illatio.dev`  | `/labs/`     |
-| Illatio Cloud | `cloud.illatio.dev` | `/cloud/`    |
+| Property   | Production domain  | Preview path |
+| ---------- | ------------------ | ------------ |
+| Illatio    | `illatio.dev`      | `/`          |
+| Guild Labs | `labs.illatio.dev` | `/labs/`     |
 
 Persistent preview: **https://guild-inference.github.io/illatio-web/**
 
@@ -34,11 +33,10 @@ Astro generates complete HTML for each route. All copy, links and controls are i
 
 Each property has its own page structure, set in Archivo (display) and Geist (text):
 
-| Property            | Structure                                                  | The one interaction                                                                                                    |
-| ------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `illatio.dev`       | Typographic poster, graphite and signal orange             | Ten of 512: scroll (or type a word) to route words to 10 of Qwen3.8's 512 experts; the close shows the visitor's trace |
-| `labs.illatio.dev`  | Chaptered paper with a margin folio, paper and ultramarine | One precision dial (16, 8, 4, 1.58 bits) redraws every plate on the page                                               |
-| `cloud.illatio.dev` | Split stage, your machine against Guild Cloud              | The divider folds the cloud half away and the request on the seam turns local                                          |
+| Property           | Structure                                                  | The one interaction                                                                                                    |
+| ------------------ | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `illatio.dev`      | Typographic poster, graphite and signal orange             | Ten of 512: scroll (or type a word) to route words to 10 of Qwen3.8's 512 experts; the close shows the visitor's trace |
+| `labs.illatio.dev` | Chaptered paper with a margin folio, paper and ultramarine | One precision dial (16, 8, 4, 1.58 bits) redraws every plate on the page                                               |
 
 The routing on the home page hashes each word to choose experts; it shows the 10-of-512 ratio and is labelled as not a trained router. Labs plates are computed in the browser from seeded sample data and labelled as such.
 
@@ -47,8 +45,8 @@ Production links preserve the six-domain hierarchy. Previews use real paths and 
 ## Content
 
 - Illatio introduces the ecosystem and its current development status.
-- Labs presents research interests and Eon as a proposal; grant decision pending.
+- Labs presents research interests and the v0 plan for Apprentice, Journeyman and Magistrate. Every status is a TODO until the owner supplies it; there are no results yet.
 - The weight explorer is an explicitly labeled ideal storage calculation, not a model specification or memory-fit claim.
-- Cloud is a product introduction with **In development** status, not a working hosted service.
+- `cloud.illatio.dev` is folded into one section of illatio.dev: Illatio, a hosted version of Guild, is parked. The Worker answers every `cloud.illatio.dev` path with a 301 to `https://illatio.dev/#illatio`.
 
 Deployment commands, current access findings, and nested-domain TLS requirements: [DEPLOYMENT.md](DEPLOYMENT.md). CI builds and tests every PR; successful `main` runs publish the Pages preview without custom-domain changes.

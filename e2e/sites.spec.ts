@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 for (const width of [1440, 390, 320])
-  for (const route of ['/', '/labs/', '/cloud/']) {
+  for (const route of ['/', '/labs/']) {
     test(`${route} accessible at ${width}px`, async ({ page }, info) => {
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
@@ -55,17 +55,35 @@ test('labs: the precision dial regrades the page, and the storage slider', async
   await expect(page.locator('[data-bits="1.58"]')).toHaveText('6.64 GiB');
 });
 
-test('cloud: the fold resolves to the self-host action', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/cloud/');
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  await page.waitForTimeout(900);
-  const cta = page.getByRole('link', { name: 'Self-host Guild' });
-  await expect(cta).toBeVisible();
-  await expect(cta).toHaveAttribute('href', /serving\/$/);
-  expect(
-    await page.evaluate(() =>
-      parseFloat(document.documentElement.style.getPropertyValue('--split')),
-    ),
-  ).toBeGreaterThan(90);
+test('every cue is readable with JavaScript off', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  for (const route of ['/', '/labs/']) {
+    await page.goto(route);
+    const hidden = await page.evaluate(() =>
+      [...document.querySelectorAll('[data-sc-cue], [data-sc-in], [data-sc-stagger] > *')]
+        .filter((el) => (el.textContent || '').trim())
+        .filter((el) => Number(getComputedStyle(el).opacity) < 1)
+        .map((el) => (el.textContent || '').trim().slice(0, 40)),
+    );
+    expect(hidden, route).toEqual([]);
+  }
+  await page.goto('/');
+  await expect(page.locator('#illatio')).toContainText('Parked');
+  await context.close();
+});
+
+test('the shared nav and footer carry no Cloud entry', async ({ page }) => {
+  for (const route of ['/', '/labs/']) {
+    await page.goto(route);
+    await expect(page.locator('.gnav a')).toHaveText([
+      'The Guild Inference Project',
+      'Engine',
+      'Docs',
+      'Models',
+      'Labs',
+      'GitHub',
+    ]);
+    await expect(page.locator('.gfoot')).not.toContainText('Cloud');
+  }
 });

@@ -1,18 +1,12 @@
 /* labs.illatio.dev: a chaptered working paper. Folio in the margin, hard cuts between grounds. */
+/* Neutrals come from the shared light tokens in base.css; this site sets only its accent. */
 .site-labs {
-  --lab-paper: #eeede8;
-  --lab-paper-2: #e2e1d9;
-  --lab-ink: #141519;
+  --lab-paper: var(--light-canvas);
+  --lab-paper-2: var(--light-surface);
+  --lab-ink: var(--light-ink);
   --lab-accent: #2f3fd0;
-  --sc-canvas: var(--lab-paper);
-  --sc-surface: #e7e6e0;
-  --sc-ink: var(--lab-ink);
-  --sc-ink-soft: #53555c;
   --sc-accent: var(--lab-accent);
   --sc-accent-ink: #f5f5f1;
-  --sc-hairline: color-mix(in oklab, #141519 14%, transparent);
-  --sc-hairline-strong: color-mix(in oklab, #141519 26%, transparent);
-  --sc-shadow-color: 60 8% 40%;
   --folio-w: 15.5rem;
   --pad: clamp(1.25rem, 5vw, 6rem);
 }
@@ -24,11 +18,16 @@
 }
 
 /* ---------------------------------------------------------------- folio -- */
+/* The folio is in-page navigation: a sticky column beside the paper, under the shared top nav. */
+.labs {
+  display: grid;
+  grid-template-columns: var(--folio-w) minmax(0, 1fr);
+}
 .folio {
-  position: fixed;
-  inset: 0 auto 0 0;
+  position: sticky;
+  top: 0;
   z-index: 10;
-  width: var(--folio-w);
+  height: 100svh;
   display: flex;
   flex-direction: column;
   gap: var(--sc-6);
@@ -141,15 +140,10 @@
 .folio__toc a:hover {
   color: var(--sc-ink);
 }
-.folio__home {
-  margin-top: auto;
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-}
 
 /* ---------------------------------------------------------------- paper -- */
 .paper {
-  margin-left: var(--folio-w);
+  min-width: 0;
 }
 
 .title {
@@ -407,20 +401,20 @@
   accent-color: var(--lab-accent);
 }
 
-/* Eon: the only dark ground on the page. */
+/* Chapter IV: the only dark ground on the page. */
 .chapter--dark,
 .chapter--dark .inter {
-  --sc-ink: #eeede8;
-  --sc-ink-soft: #a9abb4;
-  --sc-hairline: color-mix(in oklab, #eeede8 16%, transparent);
-  --sc-hairline-strong: color-mix(in oklab, #eeede8 28%, transparent);
+  --sc-ink: var(--dark-ink);
+  --sc-ink-soft: var(--dark-soft);
+  --sc-hairline: color-mix(in oklab, #ebede8 16%, transparent);
+  --sc-hairline-strong: color-mix(in oklab, #ebede8 28%, transparent);
   color: var(--sc-ink);
 }
 .chapter--dark {
-  background: #141519;
+  background: var(--dark-canvas);
 }
 .chapter--dark .inter {
-  background: #0d0e11;
+  background: var(--dark-deep);
 }
 .chapter--dark .inter__num span {
   color: #a3adff;
@@ -442,20 +436,38 @@
 .ledger dt {
   color: var(--sc-ink-soft);
 }
-.ledger dd {
-  margin: 0;
+/* Each plan row: the model, then what it is and its status. */
+.ledger div {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sc-1);
+}
+.ledger dt {
   font-family: var(--sc-font-display);
   font-weight: 650;
   font-stretch: 92%;
   font-size: var(--sc-t-lg);
   letter-spacing: -0.015em;
-  text-align: right;
+  color: var(--sc-ink);
+}
+.ledger dd {
+  margin: 0;
+  display: grid;
+  gap: var(--sc-1);
+  color: var(--sc-ink-soft);
+}
+/* Statuses the owner has not supplied yet are shown, not guessed. */
+.todo {
+  display: block;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: 0.04em;
+  color: #f0b36a;
 }
 
 /* ------------------------------------------------------------- colophon -- */
 .colophon {
-  padding: var(--sc-10) var(--pad) var(--sc-6);
-  min-height: 80svh;
+  padding: var(--sc-10) var(--pad) var(--sc-8);
   display: flex;
   flex-direction: column;
   gap: var(--sc-5);
@@ -478,51 +490,15 @@
   font-size: var(--sc-t-xs);
   color: var(--sc-ink-soft);
 }
-.colophon__base {
-  margin: auto 0 0;
-  padding-top: var(--sc-5);
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-}
-.eco ul {
-  list-style: none;
-  margin: var(--sc-5) 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--sc-hairline);
-}
-.eco li {
-  border-bottom: 1px solid var(--sc-hairline);
-}
-.eco a {
-  display: grid;
-  gap: 2px;
-  padding: var(--sc-4) var(--sc-4) var(--sc-4) 0;
-  text-decoration: none;
-}
-.eco__name {
-  font-weight: 600;
-  font-size: var(--sc-t-sm);
-}
-.eco__domain {
-  font-family: var(--sc-font-mono);
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-}
-.eco__note {
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-}
-.eco a:hover .eco__name {
-  color: var(--lab-accent);
-}
-
 /* --------------------------------------------------------------- mobile -- */
 @media (max-width: 900px) {
+  .labs {
+    display: block;
+  }
   .folio {
     position: sticky;
-    inset: 0 auto auto 0;
+    top: 0;
+    height: auto;
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
@@ -565,9 +541,6 @@
   .folio__home {
     display: none;
   }
-  .paper {
-    margin-left: 0;
-  }
   .title {
     min-height: auto;
     padding-block: var(--sc-8) var(--sc-9);
@@ -595,13 +568,5 @@
   }
   .readout--bits {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .eco ul {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (max-width: 420px) {
-  .eco ul {
-    grid-template-columns: 1fr;
   }
 }

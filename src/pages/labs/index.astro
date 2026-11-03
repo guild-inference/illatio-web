@@ -1,13 +1,12 @@
 ---
 import Stage from '../../layouts/Stage.astro';
-import Ecosystem from '../../components/Ecosystem.astro';
 import '../../styles/labs.css';
 import { link } from '../../lib/links';
 const chapters = [
   ['I', 'sparse', 'Sparse by design'],
   ['II', 'precision', 'Less precision, more intention'],
   ['III', 'local', 'Local, by nature'],
-  ['IV', 'eon', 'Eon'],
+  ['IV', 'plan', 'The v0 plan'],
 ];
 const precisions = [
   ['16', '16'],
@@ -20,247 +19,278 @@ const precisions = [
 <Stage
   property="labs"
   title="Guild Labs: a smaller footprint, a larger possibility"
-  description="Research notes on efficient language models, Mixture-of-Experts architectures, ternary representations and local inference. Eon is a proposed model family; a grant decision is pending."
+  description="Research notes on efficient language models, Mixture-of-Experts architectures, ternary representations and local inference, and the v0 plan for the Apprentice, Journeyman and Magistrate models."
   theme="#eeede8"
+  tone="light"
+  current="labs"
 >
-  <aside class="folio" aria-label="Folio">
-    <a class="folio__mark" href={link('labs')}>Guild Labs</a>
-    <p class="folio__chapter" aria-live="off">
-      <span class="folio__num" data-folio-num>&nbsp;</span>
-      <span class="folio__title" data-folio-title>Research notes</span>
-    </p>
-    <fieldset class="precision">
-      <legend>Page precision, bits per weight</legend>
-      <div class="precision__set">
+  <div class="labs">
+    <aside class="folio" aria-label="Folio">
+      <a class="folio__mark" href={link('labs')}>Guild Labs</a>
+      <p class="folio__chapter" aria-live="off">
+        <span class="folio__num" data-folio-num>&nbsp;</span>
+        <span class="folio__title" data-folio-title>Research notes</span>
+      </p>
+      <fieldset class="precision">
+        <legend>Page precision, bits per weight</legend>
+        <div class="precision__set">
+          {
+            precisions.map(([value, label]) => (
+              <label>
+                <input
+                  type="radio"
+                  name="precision"
+                  value={value}
+                  checked={value === '16'}
+                  data-precision
+                />
+                <span>{label}</span>
+              </label>
+            ))
+          }
+        </div>
+        <p class="precision__mode" data-precision-mode>Follows your reading in chapter II.</p>
+      </fieldset>
+      <nav class="folio__toc" aria-label="Chapters">
         {
-          precisions.map(([value, label]) => (
-            <label>
-              <input
-                type="radio"
-                name="precision"
-                value={value}
-                checked={value === '16'}
-                data-precision
-              />
-              <span>{label}</span>
-            </label>
+          chapters.map(([n, id, title]) => (
+            <a href={`#${id}`}>
+              <span>{n}</span> {title}
+            </a>
           ))
         }
-      </div>
-      <p class="precision__mode" data-precision-mode>Follows your reading in chapter II.</p>
-    </fieldset>
-    <nav class="folio__toc" aria-label="Chapters">
-      {
-        chapters.map(([n, id, title]) => (
-          <a href={`#${id}`}>
-            <span>{n}</span> {title}
-          </a>
-        ))
-      }
-    </nav>
-    <a class="folio__home" href={link('illatio')}>The Guild Inference Project</a>
-  </aside>
+      </nav>
+    </aside>
 
-  <main id="main" class="paper">
-    <section class="title" data-sc-act="flow" data-folio=" |Research notes">
-      <div class="title__far" aria-hidden="true" data-sc-parallax="-1.6">
-        <span>&#123;−1, 0, +1&#125;</span>
-      </div>
-      <p class="title__kicker">Research notes from The Guild Inference Project</p>
-      <h1 class="title__head">A smaller footprint. <em>A larger possibility.</em></h1>
-      <p class="title__stand">
-        How much intelligence can be built with less? Guild Labs studies the relationship between
-        model architecture, numerical representation and the machines that run them.
-      </p>
-      <ol class="contents">
-        <li><a href="#sparse"><span>I</span> Sparse by design</a></li>
-        <li><a href="#precision"><span>II</span> Less precision, more intention</a></li>
-        <li><a href="#local"><span>III</span> Local, by nature</a></li>
-        <li><a href="#eon"><span>IV</span> Eon, a proposal</a></li>
-      </ol>
-      <p class="title__status">
-        Eon is a proposed model family. A research grant decision is pending.
-      </p>
-    </section>
+    <main id="main" class="paper">
+      <section class="title" data-sc-act="flow" data-folio=" |Research notes">
+        <div class="title__far" aria-hidden="true" data-sc-parallax="-1.6">
+          <span>&#123;−1, 0, +1&#125;</span>
+        </div>
+        <p class="title__kicker">Research notes from The Guild Inference Project</p>
+        <h1 class="title__head">A smaller footprint. <em>A larger possibility.</em></h1>
+        <p class="title__stand">
+          How much intelligence can be built with less? Guild Labs studies the relationship between
+          model architecture, numerical representation and the machines that run them.
+        </p>
+        <ol class="contents">
+          <li><a href="#sparse"><span>I</span> Sparse by design</a></li>
+          <li><a href="#precision"><span>II</span> Less precision, more intention</a></li>
+          <li><a href="#local"><span>III</span> Local, by nature</a></li>
+          <li>
+            <a href="#plan"><span>IV</span> The v0 plan: Apprentice, Journeyman, Magistrate</a>
+          </li>
+        </ol>
+        <p class="title__status">
+          Chapter IV sets out the v0 plan for Apprentice, Journeyman and Magistrate. No results yet.
+        </p>
+      </section>
 
-    <section id="sparse" class="chapter" data-folio="I|Sparse by design">
-      <header class="inter" data-sc-act="flow">
-        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
-          <span aria-hidden="true">I</span>
-        </div>
-        <h2 class="inter__title" data-sc-in>Sparse by design</h2>
-      </header>
-      <div class="spread" data-sc-act="flow">
-        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
-          <p class="lede">
-            How can a Mixture-of-Experts model grow its capacity while the work for each token stays
-            small?
-          </p>
-          <p>
-            In a sparse layer a router scores every expert for every token and keeps only the best
-            few. Qwen3.8, the model Guild is built around, has
-            <strong><span data-sc-count="0 512">512</span> routed experts</strong> in each of its 48 layers
-            and keeps <strong><span data-sc-count="0 10">10</span></strong> of them per token, plus one
-            shared expert.
-          </p>
-          <p>
-            The rest of the parameters exist, but for that token they do no work. Capacity and cost
-            come apart, and that gap is what we want to understand: which experts get chosen, how
-            often, and what a router learns about the machine it runs on.
-          </p>
-        </div>
-        <figure class="plate" data-sc-parallax="-0.5">
-          <canvas data-plate="router" width="720" height="280" aria-hidden="true"></canvas>
-          <figcaption>
-            <span class="plate__no">Plate 1.</span> One token's router scores for 512 experts, sorted
-            from highest. The ten kept are marked. Seeded sample scores, drawn at
-            <span data-precision-label>16-bit</span>.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section id="precision" class="chapter chapter--alt" data-folio="II|Less precision">
-      <header class="inter" data-sc-act="flow">
-        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
-          <span aria-hidden="true">II</span>
-        </div>
-        <h2 class="inter__title" data-sc-in>Less precision, more intention</h2>
-      </header>
-      <div class="spread spread--wide" data-sc-act="flow" data-auto-precision>
-        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
-          <p class="lede">What does a bit buy?</p>
-          <p>
-            A weight stored in 16 bits can take tens of thousands of values. At 4 bits it can take
-            16. A ternary weight takes three: minus one, zero or plus one, times a shared scale.
-            That is log₂3, about 1.585 bits of information.
-          </p>
-          <p>
-            Plate 2 is one small block of sample weights. As you read, the whole page steps down
-            from 16 bits to ternary, and every figure on it is drawn at that precision. Then take
-            the precision dial and set it yourself.
-          </p>
-          <p>
-            What we want to learn is what that loss costs when model quality, training and hardware
-            are designed together, rather than squeezed after the fact.
-          </p>
-        </div>
-        <figure class="plate plate--matrix">
-          <canvas data-plate="matrix" width="768" height="384" aria-hidden="true"></canvas>
-          <canvas data-plate="histogram" width="768" height="180" aria-hidden="true"></canvas>
-          <dl class="readout">
-            <div>
-              <dt>Precision</dt>
-              <dd data-precision-label>16-bit</dd>
-            </div>
-            <div>
-              <dt>Distinct values</dt>
-              <dd data-distinct>many</dd>
-            </div>
-            <div>
-              <dt>Mean error per weight</dt>
-              <dd data-error>0</dd>
-            </div>
-          </dl>
-          <figcaption>
-            <span class="plate__no">Plate 2.</span> 2,048 sample weights (a smooth seeded pattern plus
-            noise) and their histogram. 8- and 4-bit use one symmetric scale per block; ternary uses the
-            mean absolute value as its scale. Not a trained model.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section id="local" class="chapter" data-folio="III|Local, by nature">
-      <header class="inter" data-sc-act="flow">
-        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
-          <span aria-hidden="true">III</span>
-        </div>
-        <h2 class="inter__title" data-sc-in>Local, by nature</h2>
-      </header>
-      <div class="spread" data-sc-act="flow">
-        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
-          <p class="lede">
-            How should a model change when graphics memory is scarce, system RAM is plentiful and
-            the data never leaves the machine?
-          </p>
-          <p>
-            Guild already treats a computer as tiers: the hot dense path in GPU memory, routed
-            experts in system RAM and mapped files, CPU threads doing real work. A model designed
-            with those tiers in mind could place its parameters on purpose instead of by accident.
-          </p>
-          <div class="storage">
-            <label for="scale"
-              >Hypothetical parameter count: <output id="scale-label" for="scale">35</output> billion</label
-            >
-            <input id="scale" type="range" min="1" max="200" value="35" step="1" />
+      <section id="sparse" class="chapter" data-folio="I|Sparse by design">
+        <header class="inter" data-sc-act="flow">
+          <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+            <span aria-hidden="true">I</span>
           </div>
-          <p class="note">
-            Storage is parameters × bits ÷ 8 ÷ 2³⁰. Packing, scales, mixed precision, activations,
-            KV cache and runtime workspaces add to it. Storage alone says nothing about quality or
-            speed, and none of these figures describe Eon.
-          </p>
+          <h2 class="inter__title" data-sc-in>Sparse by design</h2>
+        </header>
+        <div class="spread" data-sc-act="flow">
+          <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+            <p class="lede">
+              How can a Mixture-of-Experts model grow its capacity while the work for each token
+              stays small?
+            </p>
+            <p>
+              In a sparse layer a router scores every expert for every token and keeps only the best
+              few. Qwen3.8, the model Guild is built around, has
+              <strong><span data-sc-count="0 512">512</span> routed experts</strong> in each of its 48
+              layers and keeps <strong><span data-sc-count="0 10">10</span></strong> of them per token,
+              plus one shared expert.
+            </p>
+            <p>
+              The rest of the parameters exist, but for that token they do no work. Capacity and
+              cost come apart, and that gap is what we want to understand: which experts get chosen,
+              how often, and what a router learns about the machine it runs on.
+            </p>
+          </div>
+          <figure class="plate" data-sc-parallax="-0.5">
+            <canvas data-plate="router" width="720" height="280" aria-hidden="true"></canvas>
+            <figcaption>
+              <span class="plate__no">Plate 1.</span> One token's router scores for 512 experts, sorted
+              from highest. The ten kept are marked. Seeded sample scores, drawn at
+              <span data-precision-label>16-bit</span>.
+            </figcaption>
+          </figure>
         </div>
-        <figure class="plate plate--bricks" data-sc-parallax="-0.5">
-          <canvas data-plate="bricks" width="720" height="420" aria-hidden="true"></canvas>
-          <dl class="readout readout--bits">
-            <div><dt>16-bit</dt><dd data-bits="16">65.19 GiB</dd></div>
-            <div><dt>8-bit</dt><dd data-bits="8">32.60 GiB</dd></div>
-            <div><dt>4-bit</dt><dd data-bits="4">16.30 GiB</dd></div>
-            <div><dt>Ternary</dt><dd data-bits="1.58">6.46 GiB</dd></div>
+      </section>
+
+      <section id="precision" class="chapter chapter--alt" data-folio="II|Less precision">
+        <header class="inter" data-sc-act="flow">
+          <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+            <span aria-hidden="true">II</span>
+          </div>
+          <h2 class="inter__title" data-sc-in>Less precision, more intention</h2>
+        </header>
+        <div class="spread spread--wide" data-sc-act="flow" data-auto-precision>
+          <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+            <p class="lede">What does a bit buy?</p>
+            <p>
+              A weight stored in 16 bits can take tens of thousands of values. At 4 bits it can take
+              16. A ternary weight takes three: minus one, zero or plus one, times a shared scale.
+              That is log₂3, about 1.585 bits of information.
+            </p>
+            <p>
+              Plate 2 is one small block of sample weights. As you read, the whole page steps down
+              from 16 bits to ternary, and every figure on it is drawn at that precision. Then take
+              the precision dial and set it yourself.
+            </p>
+            <p>
+              What we want to learn is what that loss costs when model quality, training and
+              hardware are designed together, rather than squeezed after the fact.
+            </p>
+          </div>
+          <figure class="plate plate--matrix">
+            <canvas data-plate="matrix" width="768" height="384" aria-hidden="true"></canvas>
+            <canvas data-plate="histogram" width="768" height="180" aria-hidden="true"></canvas>
+            <dl class="readout">
+              <div>
+                <dt>Precision</dt>
+                <dd data-precision-label>16-bit</dd>
+              </div>
+              <div>
+                <dt>Distinct values</dt>
+                <dd data-distinct>many</dd>
+              </div>
+              <div>
+                <dt>Mean error per weight</dt>
+                <dd data-error>0</dd>
+              </div>
+            </dl>
+            <figcaption>
+              <span class="plate__no">Plate 2.</span> 2,048 sample weights (a smooth seeded pattern plus
+              noise) and their histogram. 8- and 4-bit use one symmetric scale per block; ternary uses
+              the mean absolute value as its scale. Not a trained model.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="local" class="chapter" data-folio="III|Local, by nature">
+        <header class="inter" data-sc-act="flow">
+          <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+            <span aria-hidden="true">III</span>
+          </div>
+          <h2 class="inter__title" data-sc-in>Local, by nature</h2>
+        </header>
+        <div class="spread" data-sc-act="flow">
+          <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+            <p class="lede">
+              How should a model change when graphics memory is scarce, system RAM is plentiful and
+              the data never leaves the machine?
+            </p>
+            <p>
+              Guild already treats a computer as tiers: the hot dense path in GPU memory, routed
+              experts in system RAM and mapped files, CPU threads doing real work. A model designed
+              with those tiers in mind could place its parameters on purpose instead of by accident.
+            </p>
+            <div class="storage">
+              <label for="scale"
+                >Hypothetical parameter count: <output id="scale-label" for="scale">35</output> billion</label
+              >
+              <input id="scale" type="range" min="1" max="200" value="35" step="1" />
+            </div>
+            <p class="note">
+              Storage is parameters × bits ÷ 8 ÷ 2³⁰. Packing, scales, mixed precision, activations,
+              KV cache and runtime workspaces add to it. Storage alone says nothing about quality or
+              speed, and none of these figures describe a Guild Labs model.
+            </p>
+          </div>
+          <figure class="plate plate--bricks" data-sc-parallax="-0.5">
+            <canvas data-plate="bricks" width="720" height="420" aria-hidden="true"></canvas>
+            <dl class="readout readout--bits">
+              <div><dt>16-bit</dt><dd data-bits="16">65.19 GiB</dd></div>
+              <div><dt>8-bit</dt><dd data-bits="8">32.60 GiB</dd></div>
+              <div><dt>4-bit</dt><dd data-bits="4">16.30 GiB</dd></div>
+              <div><dt>Ternary</dt><dd data-bits="1.58">6.46 GiB</dd></div>
+            </dl>
+            <figcaption>
+              <span class="plate__no">Plate 3.</span> Ideal weight storage for the hypothetical model,
+              one brick per GiB. Filled: the page precision. Outline: 16-bit.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="plan" class="chapter chapter--dark" data-folio="IV|The v0 plan">
+        <header class="inter" data-sc-act="flow">
+          <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+            <span aria-hidden="true">IV</span>
+          </div>
+          <h2 class="inter__title" data-sc-in>The v0 plan</h2>
+        </header>
+        <div class="spread" data-sc-act="flow">
+          <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+            <p class="lede">Apprentice, Journeyman and Magistrate.</p>
+            <p>
+              Each v0 model is a ternary heal of an NVIDIA Nemotron model: its weights brought to
+              {'{'}−1, 0, +1{'}'} and the model healed to work that way. No results, checkpoints or release
+              dates yet.
+            </p>
+            <p>
+              Before any of them ships, it has to pass Masterpiece, our evaluation gate. A paper is
+              in progress.
+            </p>
+          </div>
+          <dl class="ledger">
+            <div>
+              <dt>Apprentice v0</dt>
+              <dd>
+                Ternary heal of NVIDIA Nemotron 3 Nano 4B<span class="todo">Status: TODO</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Journeyman v0</dt>
+              <dd>
+                Ternary heal of Nemotron Lightning. Depends on a pending compute grant<span
+                  class="todo">Status: TODO</span
+                >
+              </dd>
+            </div>
+            <div>
+              <dt>Magistrate v0</dt>
+              <dd>
+                Ternary heal of Nemotron Super. Depends on compute. Will be open-weight<span
+                  class="todo">Status: TODO</span
+                >
+              </dd>
+            </div>
+            <div>
+              <dt>Masterpiece</dt>
+              <dd>
+                The evaluation gate every model must pass<span class="todo">Status: TODO</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Paper</dt>
+              <dd>In progress<span class="todo">Status: TODO</span></dd>
+            </div>
           </dl>
-          <figcaption>
-            <span class="plate__no">Plate 3.</span> Ideal weight storage for the hypothetical model, one
-            brick per GiB. Filled: the page precision. Outline: 16-bit.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section id="eon" class="chapter chapter--dark" data-folio="IV|Eon">
-      <header class="inter" data-sc-act="flow">
-        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
-          <span aria-hidden="true">IV</span>
         </div>
-        <h2 class="inter__title" data-sc-in>Eon, a proposal</h2>
-      </header>
-      <div class="spread" data-sc-act="flow">
-        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
-          <p class="lede">Eon is the name of the model family we hope to build.</p>
-          <p>
-            Our interests are efficient large language models, sparse Mixture-of-Experts
-            architectures and ternary representations, designed for the machines people already own.
-            That is an ambition, not a result.
-          </p>
-        </div>
-        <dl class="ledger">
-          <div><dt>Architecture</dt><dd>Not finalized</dd></div>
-          <div><dt>Scale</dt><dd>Not finalized</dd></div>
-          <div><dt>Release schedule</dt><dd>Not set</dd></div>
-          <div><dt>Checkpoints</dt><dd>None released</dd></div>
-          <div><dt>Research results</dt><dd>None published</dd></div>
-          <div><dt>Funding</dt><dd>Grant decision pending</dd></div>
-        </dl>
-      </div>
-    </section>
+      </section>
 
-    <footer class="colophon" data-folio=" |Colophon">
-      <p class="colophon__text">
-        Guild Labs is the research side of The Guild Inference Project. Our systems work is open and
-        runs today: <a class="colophon__cta" href={link('guild')}>explore Guild</a>, read its
-        <a href={link('docs')}>documentation</a>, or follow the
-        <a href="https://github.com/guild-inference">source on GitHub</a>.
-      </p>
-      <p class="colophon__small">
-        The figures on this page are computed in your browser from seeded sample data. They
-        illustrate arithmetic; they are not measurements of any model. Set in Archivo and Geist.
-      </p>
-      <Ecosystem />
-      <p class="colophon__base">
-        Guild Labs, The Guild Inference Project, {new Date().getUTCFullYear()}
-      </p>
-    </footer>
-  </main>
+      <footer class="colophon" data-folio=" |Colophon">
+        <p class="colophon__text">
+          Guild Labs is the research side of The Guild Inference Project. Our systems work is open
+          and runs today: <a class="colophon__cta" href={link('guild')}>explore Guild</a>, read its
+          <a href={link('docs')}>documentation</a>, or follow the
+          <a href="https://github.com/guild-inference">source on GitHub</a>.
+        </p>
+        <p class="colophon__small">
+          The figures on this page are computed in your browser from seeded sample data. They
+          illustrate arithmetic; they are not measurements of any model. Set in Archivo and Geist.
+        </p>
+      </footer>
+    </main>
+  </div>
 
   <script>
     import { whileVisible } from '../../scripts/engine';

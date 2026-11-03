@@ -1,0 +1,40 @@
+---
+// The one top navigation for every site of The Guild Inference Project. Identical in illatio-web and
+// guild-web; each repository's links.ts resolves the targets for its own deployment.
+import { link } from '../lib/links';
+type NavItem = 'project' | 'engine' | 'docs' | 'models' | 'labs';
+interface Props {
+  current?: NavItem;
+}
+const { current } = Astro.props;
+const items: [NavItem, string, string][] = [
+  ['engine', 'Engine', link('guild')],
+  ['docs', 'Docs', link('docs')],
+  ['models', 'Models', link('models')],
+  ['labs', 'Labs', link('labs')],
+];
+---
+
+<header class="gnav">
+  <nav class="gnav__inner" aria-label="The Guild Inference Project">
+    <a
+      class="gnav__home"
+      href={link('illatio')}
+      aria-current={current === 'project' ? 'page' : undefined}>The Guild Inference Project</a
+    >
+    <ul class="gnav__list">
+      {
+        items.map(([key, label, href]) => (
+          <li>
+            <a {href} aria-current={current === key ? 'page' : undefined}>
+              {label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a href="https://github.com/guild-inference">GitHub</a>
+      </li>
+    </ul>
+  </nav>
+</header>

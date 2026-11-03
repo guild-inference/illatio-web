@@ -1,12 +1,8 @@
 /* illatio.dev: a typographic poster. Type is the imagery; the expert field is the one picture. */
+/* Neutrals come from the shared tokens in base.css; this site sets only its accent. */
 .site-illatio {
-  --sc-canvas: #0e0e0c;
-  --sc-surface: #181815;
-  --sc-ink: #f1eee6;
-  --sc-ink-soft: #a7a296;
   --sc-accent: #ff6a1f;
   --sc-accent-ink: #120a05;
-  --sc-shadow-color: 40 20% 2%;
   --hot: var(--sc-accent);
   --dim: color-mix(in oklab, var(--sc-ink) 8%, transparent);
 }
@@ -46,7 +42,7 @@
 /* ----------------------------------------------------------------- hero -- */
 .hero__stage {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
   padding: clamp(1.25rem, 3vh, 2rem) var(--sc-gutter) clamp(1.5rem, 6vh, 3.5rem);
 }
 .hero__far {
@@ -79,38 +75,6 @@
 }
 .field--band > i:not(.is-on) {
   background: color-mix(in oklab, var(--sc-ink) 7%, transparent);
-}
-
-.mast {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: var(--sc-5);
-}
-.mast__mark {
-  font-family: var(--sc-font-display);
-  font-weight: 700;
-  font-stretch: 88%;
-  font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.5rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  text-decoration: none;
-}
-.mast__nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: end;
-  gap: var(--sc-2) var(--sc-5);
-  font-size: var(--sc-t-sm);
-}
-.mast__nav a {
-  text-decoration: none;
-  color: var(--sc-ink-soft);
-}
-.mast__nav a:hover {
-  color: var(--sc-ink);
 }
 
 .hero__title {
@@ -196,7 +160,7 @@
 
 /* ---------------------------------------------------------------- quiet -- */
 .quiet {
-  padding-block: clamp(8rem, 30vh, 18rem);
+  padding-block: clamp(4rem, 14vh, 8rem);
 }
 .quiet__text {
   max-width: 36ch;
@@ -358,9 +322,32 @@
   order: 2;
   text-align: right;
 }
-.prop--cloud .prop__word h2 {
+/* Illatio: one short, quiet section. The hosted version is parked. */
+.illatio {
+  padding-block: clamp(3rem, 9vh, 6rem);
+}
+.illatio__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+  gap: var(--sc-3) var(--sc-8);
+  align-items: baseline;
+  border-top: 1px solid var(--sc-hairline);
+  padding-top: var(--sc-6);
+}
+.illatio h2 {
+  font-weight: 800;
+  font-stretch: 78%;
+  font-size: var(--sc-t-3xl);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
   color: transparent;
-  -webkit-text-stroke: 2px var(--sc-ink);
+  -webkit-text-stroke: 1.5px var(--sc-ink);
+}
+.illatio p {
+  max-width: 40ch;
+  margin: 0;
+  font-size: var(--sc-t-lg);
+  color: var(--sc-ink-soft);
 }
 .prop__text {
   padding-bottom: 1.2vw;
@@ -428,20 +415,14 @@
 
 /* ---------------------------------------------------------------- close -- */
 .close {
-  --sc-canvas: #e8e7e1;
-  --sc-ink: #141412;
-  --sc-ink-soft: #57544c;
   --hot: #b43c00;
   --sc-accent: #b43c00;
   --sc-accent-ink: #fff8f2;
-  --sc-hairline: color-mix(in oklab, #141412 14%, transparent);
-  --dim: color-mix(in oklab, #141412 9%, transparent);
+  --dim: color-mix(in oklab, var(--sc-ink) 9%, transparent);
   position: relative;
   z-index: 4;
   background: var(--sc-canvas);
-  color: var(--sc-ink);
-  padding-block: clamp(5rem, 14vh, 9rem) clamp(1.5rem, 4vh, 2.5rem);
-  min-height: 92svh;
+  padding-block: clamp(4rem, 12vh, 7rem);
   display: flex;
 }
 .close__inner {
@@ -487,59 +468,8 @@
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
-.close__base {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  gap: var(--sc-4);
-  flex-wrap: wrap;
-  padding-top: var(--sc-5);
-  border-top: 1px solid var(--sc-hairline);
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-}
-
-.eco ul {
-  list-style: none;
-  margin: var(--sc-6) 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--sc-hairline);
-}
-.eco li {
-  border-bottom: 1px solid var(--sc-hairline);
-}
-.eco a {
-  display: grid;
-  gap: 2px;
-  padding: var(--sc-4) var(--sc-4) var(--sc-4) 0;
-  text-decoration: none;
-}
-.eco__name {
-  font-weight: 600;
-  font-size: var(--sc-t-sm);
-}
-.eco__domain {
-  font-family: var(--sc-font-mono);
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-}
-.eco__note {
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-}
-.eco a:hover .eco__name {
-  text-decoration: underline;
-  text-underline-offset: 0.22em;
-}
-
 /* --------------------------------------------------------------- mobile -- */
 @media (max-width: 860px) {
-  .mast__nav {
-    max-width: 14rem;
-    gap: var(--sc-1) var(--sc-4);
-  }
   .hero__title {
     font-size: clamp(3.1rem, 0.4rem + 15.5vw, 7rem);
     margin-top: 0;
@@ -564,6 +494,9 @@
   }
   .quiet__text {
     margin-right: 0;
+  }
+  .illatio__inner {
+    grid-template-columns: minmax(0, 1fr);
   }
   .peak__stage {
     grid-template-columns: 1fr;
@@ -614,15 +547,6 @@
   .rule__small {
     font-size: var(--sc-t-sm);
   }
-  .eco ul {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 420px) {
-  .eco ul {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -671,4 +595,9 @@
 }
 .lost .close__cta {
   color: var(--hot) !important;
+}
+
+/* The shared top nav sits above the first screen, so the hero stage is shorter by its height. */
+.hero .hero__stage {
+  height: calc(100svh - 3rem);
 }

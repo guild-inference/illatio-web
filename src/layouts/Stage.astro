@@ -5,6 +5,8 @@ import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import '../vendor/scrollcraft/scrollcraft.css';
 import '../styles/base.css';
+import GlobalNav from '../components/GlobalNav.astro';
+import GlobalFooter from '../components/GlobalFooter.astro';
 import { asset, canonical, type Property } from '../lib/links';
 interface Props {
   title: string;
@@ -12,9 +14,20 @@ interface Props {
   property?: Property;
   path?: string;
   theme: string;
+  tone?: 'dark' | 'light';
+  current?: 'project' | 'engine' | 'docs' | 'models' | 'labs';
   noindex?: boolean;
 }
-const { title, description, property = 'illatio', path = '', theme, noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  property = 'illatio',
+  path = '',
+  theme,
+  tone = 'dark',
+  current,
+  noindex = false,
+} = Astro.props;
 const preview = import.meta.env.PUBLIC_DEPLOYMENT !== 'production';
 ---
 
@@ -35,11 +48,34 @@ const preview = import.meta.env.PUBLIC_DEPLOYMENT !== 'production';
     <meta property="og:image" content={canonical(property, 'social.svg')} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+    <noscript>
+      <style is:inline>
+        /* Without JavaScript every scroll cue is simply shown, and stacked crossfades become a list. */
+        [data-sc-cue],
+        [data-sc-in],
+        [data-sc-stagger] > * {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        [data-noscript-unstack] > * {
+          grid-area: auto !important;
+        }
+        [data-noscript-hide] {
+          display: none !important;
+        }
+        [data-sc-stage] {
+          position: relative;
+          overflow: clip;
+        }
+      </style>
+    </noscript>
   </head>
-  <body class={`site site-${property}`}>
+  <body class={`site site-${property} theme-${tone}`}>
     <a class="skip" href="#main">Skip to content</a>
     <div class="sc-grain" aria-hidden="true"></div>
+    <GlobalNav {current} />
     <slot />
+    <GlobalFooter />
     <script>
       import { engine } from '../scripts/engine';
       engine.mount(document.body);

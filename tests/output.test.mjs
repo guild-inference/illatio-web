@@ -14,7 +14,7 @@ async function walk(dir) {
 }
 test('every generated internal page, anchor, and asset link resolves', async () => {
   const files = (await walk(root)).filter((f) => f.pathname.endsWith('.html'));
-  assert.ok(files.length >= 4, 'Build the site first');
+  assert.ok(files.length >= 3, 'Build the site first');
   const errors = [];
   for (const file of files) {
     const html = await readFile(file, 'utf8');
