@@ -48,3 +48,8 @@ body {
 a {
   transition: color var(--sc-d-fast) var(--sc-ease-out);
 }
+
+/* Components set their own display; the hidden attribute must still win. */
+[hidden] {
+  display: none !important;
+}
