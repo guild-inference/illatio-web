@@ -30,9 +30,17 @@ npm run preview
 
 ## Architecture
 
-Astro generates complete HTML for each route. Navigation and reading work without JavaScript. Small browser scripts handle copy feedback and the illustrative storage calculator. There is no SPA router, React runtime, account system, analytics, or backend to operate. The short entry animation respects reduced motion.
+Astro generates complete HTML for each route. All copy, links and controls are in the HTML and read without JavaScript. Scroll behaviour comes from the vendored scrollcraft engine (`src/vendor/scrollcraft/`, unmodified) plus one page script per property in `src/scripts/` and each page's own `<script>`. There is no SPA router, React runtime, account system, analytics, or backend to operate. Reduced motion keeps every state and drops the movement.
 
-The identity pairs Instrument Serif with Manrope, quiet ruled layouts, and an original sparse-field SVG. Illatio uses warm paper and terracotta, Labs violet, Cloud blue, and the sibling Guild site ink and pale green. Shared visual primitives are versioned in both repositories; see [CONTRIBUTING.md](CONTRIBUTING.md).
+Each property has its own page structure, set in Archivo (display) and Geist (text):
+
+| Property            | Structure                                                  | The one interaction                                                                                                    |
+| ------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `illatio.dev`       | Typographic poster, graphite and signal orange             | Ten of 512: scroll (or type a word) to route words to 10 of Qwen3.8's 512 experts; the close shows the visitor's trace |
+| `labs.illatio.dev`  | Chaptered paper with a margin folio, paper and ultramarine | One precision dial (16, 8, 4, 1.58 bits) redraws every plate on the page                                               |
+| `cloud.illatio.dev` | Split stage, your machine against Guild Cloud              | The divider folds the cloud half away and the request on the seam turns local                                          |
+
+The routing on the home page hashes each word to choose experts; it shows the 10-of-512 ratio and is labelled as not a trained router. Labs plates are computed in the browser from seeded sample data and labelled as such.
 
 Production links preserve the six-domain hierarchy. Previews use real paths and cross-link to the sibling preview. `PUBLIC_DEPLOYMENT=production` enables canonical production navigation; default development links use ports 4173/4174. `PUBLIC_GUILD_URL` overrides the other repository's preview origin.
 

@@ -1,0 +1,31 @@
+---
+import { link, domains, type Property } from '../lib/links';
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+const entries: [Property, string, string][] = [
+  ['illatio', 'The Guild Inference Project', 'The project'],
+  ['guild', 'Guild Engine', 'Available today'],
+  ['docs', 'Guild Docs', 'Source-pinned'],
+  ['models', 'Guild Models', 'Compatibility'],
+  ['labs', 'Guild Labs', 'Research'],
+  ['cloud', 'Guild Cloud', 'In development'],
+];
+---
+
+<nav class={`eco ${className}`} aria-label="The Guild Inference Project sites">
+  <ul>
+    {
+      entries.map(([key, name, note]) => (
+        <li>
+          <a href={link(key)}>
+            <span class="eco__name">{name}</span>
+            <span class="eco__domain">{domains[key]}</span>
+            <span class="eco__note">{note}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

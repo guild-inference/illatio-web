@@ -6,3 +6,4 @@ package-lock.json
 src/data/generated/
 test-results/
 playwright-report/
+src/vendor/

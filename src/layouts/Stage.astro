@@ -1,0 +1,48 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/archivo/wdth-italic.css';
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../vendor/scrollcraft/scrollcraft.css';
+import '../styles/base.css';
+import { asset, canonical, type Property } from '../lib/links';
+interface Props {
+  title: string;
+  description: string;
+  property?: Property;
+  path?: string;
+  theme: string;
+  noindex?: boolean;
+}
+const { title, description, property = 'illatio', path = '', theme, noindex = false } = Astro.props;
+const preview = import.meta.env.PUBLIC_DEPLOYMENT !== 'production';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content={theme} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical(property, path)} />
+    {(preview || noindex) && <meta name="robots" content="noindex,follow" />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical(property, path)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={canonical(property, 'social.svg')} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+  </head>
+  <body class={`site site-${property}`}>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="sc-grain" aria-hidden="true"></div>
+    <slot />
+    <script>
+      import { engine } from '../scripts/engine';
+      engine.mount(document.body);
+    </script>
+  </body>
+</html>

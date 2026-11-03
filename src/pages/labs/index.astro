@@ -1,209 +1,502 @@
 ---
-import Shell from '../../layouts/Shell.astro';
-import Field from '../../components/Field.astro';
+import Stage from '../../layouts/Stage.astro';
+import Ecosystem from '../../components/Ecosystem.astro';
+import '../../styles/labs.css';
 import { link } from '../../lib/links';
-const sampleTrits = [
-  '+1',
-  '0',
-  '-1',
-  '0',
-  '+1',
-  '0',
-  '0',
-  '-1',
-  '+1',
-  '0',
-  '-1',
-  '+1',
-  '0',
-  '+1',
-  '-1',
-  '0',
-  '0',
-  '+1',
-  '-1',
-  '0',
-  '+1',
-  '0',
-  '-1',
-  '0',
+const chapters = [
+  ['I', 'sparse', 'Sparse by design'],
+  ['II', 'precision', 'Less precision, more intention'],
+  ['III', 'local', 'Local, by nature'],
+  ['IV', 'eon', 'Eon'],
+];
+const precisions = [
+  ['16', '16'],
+  ['8', '8'],
+  ['4', '4'],
+  ['1.58', '1.58'],
 ];
 ---
 
-<Shell
+<Stage
   property="labs"
-  title="Guild Labs — A smaller footprint. A larger possibility."
-  description="Research interests in efficient language models, MoE architectures, ternary representations, and local inference. Eon is a proposed model family; a grant decision is pending."
+  title="Guild Labs: a smaller footprint, a larger possibility"
+  description="Research notes on efficient language models, Mixture-of-Experts architectures, ternary representations and local inference. Eon is a proposed model family; a grant decision is pending."
+  theme="#eeede8"
 >
-  <section class="hero wrap">
-    <div class="hero-copy">
-      <div class="eyebrow"><span class="dot"></span> Guild Labs / research initiative</div>
-      <h1>A smaller footprint.<br /><em>A larger possibility.</em></h1>
-      <p class="lead">
-        How much intelligence can we build with less? Guild Labs explores the relationship between
-        model architecture, numerical representation, and the machines that run them.
-      </p>
-      <div class="actions">
-        <a class="button" href="#research">
-          Explore the research <span aria-hidden="true">↓</span>
-        </a>
-      </div>
-    </div>
-    <Field variant="labs" />
-  </section>
-
-  <section id="research" class="section wrap">
-    <div class="section-heading">
-      <span class="section-label">01 / Open questions</span>
-      <h2>Efficiency, from the<br />model to the machine.</h2>
-    </div>
-    <div class="pillars">
-      <article class="pillar">
-        <span class="number">01</span>
-        <h3>Sparse by design</h3>
-        <p>
-          How can Mixture-of-Experts architectures increase model capacity while limiting the work
-          required for each token?
-        </p>
-      </article>
-      <article class="pillar">
-        <span class="number">02</span>
-        <h3>Less precision.<br />More intention.</h3>
-        <p>
-          What can ternary and low-bit representations offer when we consider model quality,
-          training, and hardware execution together?
-        </p>
-      </article>
-      <article class="pillar">
-        <span class="number">03</span>
-        <h3>Local, by nature</h3>
-        <p>
-          How should model design change when GPU memory is limited, system RAM is plentiful, and
-          data stays on the user’s machine?
-        </p>
-      </article>
-    </div>
-  </section>
-
-  <section class="section wrap">
-    <div class="statement">
-      <div>
-        <span class="eyebrow">02 / Proposed model family</span>
-        <h2>Introducing an ambition.<br /><em>Eon.</em></h2>
-      </div>
-      <div>
-        <p>
-          Eon is the name of our proposed model family. Our interests include efficient large
-          language models, sparse MoE architectures, and ternary representations.
-        </p>
-        <p>
-          The architecture, scale, and release schedule are not finalized. There are no released Eon
-          checkpoints or published Eon research results to announce.
-        </p>
-        <div class="notice">
-          <strong>Research grant decision pending.</strong> We are awaiting a decision; funding has not
-          been announced as awarded.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section wrap">
-    <div class="section-heading">
-      <span class="section-label">03 / Representation study</span>
-      <div>
-        <h2>What does a bit buy?</h2>
-        <p>
-          A simple way to explore weight storage. These are mathematical estimates for hypothetical
-          parameter counts, not Eon specifications or runtime memory requirements.
-        </p>
-      </div>
-    </div>
-    <div class="paper">
-      <label for="scale">
-        Hypothetical parameter count: <output id="scale-label">35</output> billion
-      </label>
-      <input
-        id="scale"
-        type="range"
-        min="1"
-        max="200"
-        value="35"
-        step="1"
-        style="width:100%;margin:25px 0;accent-color:var(--accent)"
-      />
-      <div class="weight-bars">
+  <aside class="folio" aria-label="Folio">
+    <a class="folio__mark" href={link('labs')}>Guild Labs</a>
+    <p class="folio__chapter" aria-live="off">
+      <span class="folio__num" data-folio-num>&nbsp;</span>
+      <span class="folio__title" data-folio-title>Research notes</span>
+    </p>
+    <fieldset class="precision">
+      <legend>Page precision, bits per weight</legend>
+      <div class="precision__set">
         {
-          [
-            ['16-bit', 16],
-            ['8-bit', 8],
-            ['4-bit', 4],
-            ['Ternary', Math.log2(3)],
-          ].map(([label, bits]) => (
-            <div class="weight-row">
+          precisions.map(([value, label]) => (
+            <label>
+              <input
+                type="radio"
+                name="precision"
+                value={value}
+                checked={value === '16'}
+                data-precision
+              />
               <span>{label}</span>
-              <div class="weight-track">
-                <div class="weight-fill" style={`width:${(Number(bits) / 16) * 100}%`} />
-              </div>
-              <output data-bits={bits}>
-                {((35e9 * Number(bits)) / 8 / 2 ** 30).toFixed(2)} GiB
-              </output>
-            </div>
+            </label>
           ))
         }
       </div>
-      <div class="ternary-chips" aria-label="Illustrative ternary values">
-        <div
-          style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px"
-        >
-          <span class="section-label">Illustrative ternary state &#123;-1, 0, +1&#125;</span>
-          <button type="button" class="pulse-trigger" id="shuffle-trits">
-            Shuffle sample trits ✦
-          </button>
-        </div>
-        {
-          sampleTrits.map((t) => (
-            <span class="ternary-chip" data-trit={t}>
-              {t}
-            </span>
-          ))
-        }
-      </div>
-      <p class="small-note">
-        Storage = parameters × bits ÷ 8 ÷ 2³⁰. Ternary uses the ideal log₂(3) ≈ 1.585-bit
-        information bound. Packing, scales, mixed precision, activations, KV cache, and runtime
-        workspaces add overhead. Storage reduction alone says nothing about quality or speed.
-      </p>
-    </div>
-  </section>
+      <p class="precision__mode" data-precision-mode>Follows your reading in chapter II.</p>
+    </fieldset>
+    <nav class="folio__toc" aria-label="Chapters">
+      {
+        chapters.map(([n, id, title]) => (
+          <a href={`#${id}`}>
+            <span>{n}</span> {title}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="folio__home" href={link('illatio')}>The Guild Inference Project</a>
+  </aside>
 
-  <section class="section wrap">
-    <div class="band">
-      <div>
-        <h2>Our systems work is open.</h2>
-        <p>Guild is where we develop and measure local inference infrastructure today.</p>
+  <main id="main" class="paper">
+    <section class="title" data-sc-act="flow" data-folio=" |Research notes">
+      <div class="title__far" aria-hidden="true" data-sc-parallax="-1.6">
+        <span>&#123;−1, 0, +1&#125;</span>
       </div>
-      <a class="button" href={link('guild')}>
-        Explore Guild <span aria-hidden="true">↗</span>
-      </a>
-    </div>
-  </section>
+      <p class="title__kicker">Research notes from The Guild Inference Project</p>
+      <h1 class="title__head">A smaller footprint. <em>A larger possibility.</em></h1>
+      <p class="title__stand">
+        How much intelligence can be built with less? Guild Labs studies the relationship between
+        model architecture, numerical representation and the machines that run them.
+      </p>
+      <ol class="contents">
+        <li><a href="#sparse"><span>I</span> Sparse by design</a></li>
+        <li><a href="#precision"><span>II</span> Less precision, more intention</a></li>
+        <li><a href="#local"><span>III</span> Local, by nature</a></li>
+        <li><a href="#eon"><span>IV</span> Eon, a proposal</a></li>
+      </ol>
+      <p class="title__status">
+        Eon is a proposed model family. A research grant decision is pending.
+      </p>
+    </section>
+
+    <section id="sparse" class="chapter" data-folio="I|Sparse by design">
+      <header class="inter" data-sc-act="flow">
+        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+          <span aria-hidden="true">I</span>
+        </div>
+        <h2 class="inter__title" data-sc-in>Sparse by design</h2>
+      </header>
+      <div class="spread" data-sc-act="flow">
+        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+          <p class="lede">
+            How can a Mixture-of-Experts model grow its capacity while the work for each token stays
+            small?
+          </p>
+          <p>
+            In a sparse layer a router scores every expert for every token and keeps only the best
+            few. Qwen3.8, the model Guild is built around, has
+            <strong><span data-sc-count="0 512">512</span> routed experts</strong> in each of its 48 layers
+            and keeps <strong><span data-sc-count="0 10">10</span></strong> of them per token, plus one
+            shared expert.
+          </p>
+          <p>
+            The rest of the parameters exist, but for that token they do no work. Capacity and cost
+            come apart, and that gap is what we want to understand: which experts get chosen, how
+            often, and what a router learns about the machine it runs on.
+          </p>
+        </div>
+        <figure class="plate" data-sc-parallax="-0.5">
+          <canvas data-plate="router" width="720" height="280" aria-hidden="true"></canvas>
+          <figcaption>
+            <span class="plate__no">Plate 1.</span> One token's router scores for 512 experts, sorted
+            from highest. The ten kept are marked. Seeded sample scores, drawn at
+            <span data-precision-label>16-bit</span>.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="precision" class="chapter chapter--alt" data-folio="II|Less precision">
+      <header class="inter" data-sc-act="flow">
+        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+          <span aria-hidden="true">II</span>
+        </div>
+        <h2 class="inter__title" data-sc-in>Less precision, more intention</h2>
+      </header>
+      <div class="spread spread--wide" data-sc-act="flow" data-auto-precision>
+        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+          <p class="lede">What does a bit buy?</p>
+          <p>
+            A weight stored in 16 bits can take tens of thousands of values. At 4 bits it can take
+            16. A ternary weight takes three: minus one, zero or plus one, times a shared scale.
+            That is log₂3, about 1.585 bits of information.
+          </p>
+          <p>
+            Plate 2 is one small block of sample weights. As you read, the whole page steps down
+            from 16 bits to ternary, and every figure on it is drawn at that precision. Then take
+            the precision dial and set it yourself.
+          </p>
+          <p>
+            What we want to learn is what that loss costs when model quality, training and hardware
+            are designed together, rather than squeezed after the fact.
+          </p>
+        </div>
+        <figure class="plate plate--matrix">
+          <canvas data-plate="matrix" width="768" height="384" aria-hidden="true"></canvas>
+          <canvas data-plate="histogram" width="768" height="180" aria-hidden="true"></canvas>
+          <dl class="readout">
+            <div>
+              <dt>Precision</dt>
+              <dd data-precision-label>16-bit</dd>
+            </div>
+            <div>
+              <dt>Distinct values</dt>
+              <dd data-distinct>many</dd>
+            </div>
+            <div>
+              <dt>Mean error per weight</dt>
+              <dd data-error>0</dd>
+            </div>
+          </dl>
+          <figcaption>
+            <span class="plate__no">Plate 2.</span> 2,048 sample weights (a smooth seeded pattern plus
+            noise) and their histogram. 8- and 4-bit use one symmetric scale per block; ternary uses the
+            mean absolute value as its scale. Not a trained model.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="local" class="chapter" data-folio="III|Local, by nature">
+      <header class="inter" data-sc-act="flow">
+        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+          <span aria-hidden="true">III</span>
+        </div>
+        <h2 class="inter__title" data-sc-in>Local, by nature</h2>
+      </header>
+      <div class="spread" data-sc-act="flow">
+        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+          <p class="lede">
+            How should a model change when graphics memory is scarce, system RAM is plentiful and
+            the data never leaves the machine?
+          </p>
+          <p>
+            Guild already treats a computer as tiers: the hot dense path in GPU memory, routed
+            experts in system RAM and mapped files, CPU threads doing real work. A model designed
+            with those tiers in mind could place its parameters on purpose instead of by accident.
+          </p>
+          <div class="storage">
+            <label for="scale"
+              >Hypothetical parameter count: <output id="scale-label" for="scale">35</output> billion</label
+            >
+            <input id="scale" type="range" min="1" max="200" value="35" step="1" />
+          </div>
+          <p class="note">
+            Storage is parameters × bits ÷ 8 ÷ 2³⁰. Packing, scales, mixed precision, activations,
+            KV cache and runtime workspaces add to it. Storage alone says nothing about quality or
+            speed, and none of these figures describe Eon.
+          </p>
+        </div>
+        <figure class="plate plate--bricks" data-sc-parallax="-0.5">
+          <canvas data-plate="bricks" width="720" height="420" aria-hidden="true"></canvas>
+          <dl class="readout readout--bits">
+            <div><dt>16-bit</dt><dd data-bits="16">65.19 GiB</dd></div>
+            <div><dt>8-bit</dt><dd data-bits="8">32.60 GiB</dd></div>
+            <div><dt>4-bit</dt><dd data-bits="4">16.30 GiB</dd></div>
+            <div><dt>Ternary</dt><dd data-bits="1.58">6.46 GiB</dd></div>
+          </dl>
+          <figcaption>
+            <span class="plate__no">Plate 3.</span> Ideal weight storage for the hypothetical model, one
+            brick per GiB. Filled: the page precision. Outline: 16-bit.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="eon" class="chapter chapter--dark" data-folio="IV|Eon">
+      <header class="inter" data-sc-act="flow">
+        <div class="inter__num" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+          <span aria-hidden="true">IV</span>
+        </div>
+        <h2 class="inter__title" data-sc-in>Eon, a proposal</h2>
+      </header>
+      <div class="spread" data-sc-act="flow">
+        <div class="spread__text sc-stack" data-sc-in data-sc-stagger="60">
+          <p class="lede">Eon is the name of the model family we hope to build.</p>
+          <p>
+            Our interests are efficient large language models, sparse Mixture-of-Experts
+            architectures and ternary representations, designed for the machines people already own.
+            That is an ambition, not a result.
+          </p>
+        </div>
+        <dl class="ledger">
+          <div><dt>Architecture</dt><dd>Not finalized</dd></div>
+          <div><dt>Scale</dt><dd>Not finalized</dd></div>
+          <div><dt>Release schedule</dt><dd>Not set</dd></div>
+          <div><dt>Checkpoints</dt><dd>None released</dd></div>
+          <div><dt>Research results</dt><dd>None published</dd></div>
+          <div><dt>Funding</dt><dd>Grant decision pending</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <footer class="colophon" data-folio=" |Colophon">
+      <p class="colophon__text">
+        Guild Labs is the research side of The Guild Inference Project. Our systems work is open and
+        runs today: <a class="colophon__cta" href={link('guild')}>explore Guild</a>, read its
+        <a href={link('docs')}>documentation</a>, or follow the
+        <a href="https://github.com/guild-inference">source on GitHub</a>.
+      </p>
+      <p class="colophon__small">
+        The figures on this page are computed in your browser from seeded sample data. They
+        illustrate arithmetic; they are not measurements of any model. Set in Archivo and Geist.
+      </p>
+      <Ecosystem />
+      <p class="colophon__base">
+        Guild Labs, The Guild Inference Project, {new Date().getUTCFullYear()}
+      </p>
+    </footer>
+  </main>
+
   <script>
+    import { whileVisible } from '../../scripts/engine';
+    import {
+      PRECISIONS,
+      LABEL,
+      gib,
+      quantize,
+      meanAbsError,
+      seeded,
+      sampleBlock,
+      type Precision,
+    } from '../../scripts/precision';
+
+    const css = getComputedStyle(document.body);
+    const ink = () => css.getPropertyValue('--lab-ink').trim() || '#141519';
+    const accent = () => css.getPropertyValue('--lab-accent').trim() || '#2f3fd0';
+    const paper = () => css.getPropertyValue('--lab-paper').trim() || '#eeede8';
+
+    let precision: Precision = '16';
+    let manual = false;
+
+    // --- sample data, fixed for the page --------------------------------------------------
+    const COLS = 64;
+    const ROWS = 32;
+    const weights = sampleBlock(COLS, ROWS, 1585);
+    const scoreRand = seeded(512);
+    const scores = new Float32Array(512).map(() => scoreRand());
+    // Sharpen so a handful of experts stand out, as a trained router's softmax does.
+    const logits = scores.map((s) => s ** 4 * 6);
+    const z = logits.reduce((a, b) => a + Math.exp(b), 0);
+    const probs = logits.map((l) => Math.exp(l) / z);
+    const sorted = Float32Array.from([...probs].sort((a, b) => b - a));
+
+    function hex(h: string): [number, number, number] {
+      const m = h.replace('#', '');
+      return [0, 2, 4].map((i) => parseInt(m.slice(i, i + 2), 16)) as [number, number, number];
+    }
+    function mix(a: string, b: string, t: number): string {
+      const x = hex(a);
+      const y = hex(b);
+      const c = x.map((v, i) => Math.round(v + (y[i] - v) * t));
+      return `rgb(${c[0]},${c[1]},${c[2]})`;
+    }
+    function fit(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const w = canvas.clientWidth || canvas.width;
+      const h = Math.round((w * canvas.height) / canvas.width);
+      if (canvas.dataset.w !== `${w}x${dpr}`) {
+        canvas.dataset.w = `${w}x${dpr}`;
+        canvas.style.height = `${h}px`;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+      }
+      const ctx = canvas.getContext('2d')!;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      return ctx;
+    }
+
+    // --- plates --------------------------------------------------------------------------
+    function drawRouter(canvas: HTMLCanvasElement) {
+      const ctx = fit(canvas);
+      const { width: W, height: H } = canvas;
+      ctx.clearRect(0, 0, W, H);
+      const q = quantize(
+        Float32Array.from(sorted, (p) => p / sorted[0]),
+        precision,
+      );
+      const bw = W / 512;
+      for (let i = 0; i < 512; i++) {
+        const h = Math.max(1, Math.max(0, q[i]) * (H - 4));
+        ctx.fillStyle = i < 10 ? accent() : mix(paper(), ink(), 0.55);
+        ctx.fillRect(i * bw, H - h, i < 10 ? Math.max(2, bw * 0.9) : Math.max(1, bw), h);
+      }
+    }
+
+    function drawMatrix(canvas: HTMLCanvasElement, q: Float32Array) {
+      const ctx = fit(canvas);
+      const { width: W, height: H } = canvas;
+      // Colour by the drawn values' own range, so ternary shows its three tones at full strength.
+      let max = 0;
+      for (const x of q) max = Math.max(max, Math.abs(x));
+      const cw = W / COLS;
+      const ch = H / ROWS;
+      for (let r = 0; r < ROWS; r++)
+        for (let c = 0; c < COLS; c++) {
+          const v = q[r * COLS + c] / max;
+          ctx.fillStyle =
+            v >= 0
+              ? mix(paper(), accent(), Math.min(1, v * 1.6))
+              : mix(paper(), ink(), Math.min(1, -v * 1.6));
+          ctx.fillRect(c * cw, r * ch, Math.ceil(cw), Math.ceil(ch));
+        }
+    }
+
+    function drawHistogram(canvas: HTMLCanvasElement, q: Float32Array) {
+      const ctx = fit(canvas);
+      const { width: W, height: H } = canvas;
+      ctx.clearRect(0, 0, W, H);
+      const BINS = 96;
+      const lo = -4;
+      const hi = 4;
+      const bins = new Array(BINS).fill(0);
+      for (const x of q) {
+        const b = Math.floor(((x - lo) / (hi - lo)) * BINS);
+        if (b >= 0 && b < BINS) bins[b]++;
+      }
+      const peak = Math.max(...bins);
+      const bw = W / BINS;
+      bins.forEach((n, i) => {
+        if (!n) return;
+        const h = Math.max(2, (n / peak) * (H - 6));
+        ctx.fillStyle = i < BINS / 2 ? ink() : accent();
+        ctx.fillRect(i * bw + bw * 0.12, H - h, bw * 0.76, h);
+      });
+    }
+
     const slider = document.querySelector<HTMLInputElement>('#scale');
+    function drawBricks(canvas: HTMLCanvasElement) {
+      const ctx = fit(canvas);
+      const { width: W, height: H } = canvas;
+      ctx.clearRect(0, 0, W, H);
+      const params = Number(slider?.value || 35);
+      const full = Math.ceil(gib(params, '16'));
+      const now = gib(params, precision);
+      const per = Math.max(8, Math.ceil(Math.sqrt(full * (W / H))));
+      const size = Math.min(W / per, H / Math.ceil(full / per));
+      const pad = Math.max(1, size * 0.14);
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      for (let i = 0; i < full; i++) {
+        const x = (i % per) * size;
+        const y = H - (Math.floor(i / per) + 1) * size;
+        const fill = Math.max(0, Math.min(1, now - i));
+        ctx.strokeStyle = mix(paper(), ink(), 0.35);
+        ctx.lineWidth = dpr;
+        ctx.strokeRect(x + pad / 2, y + pad / 2, size - pad, size - pad);
+        if (fill > 0) {
+          ctx.fillStyle = accent();
+          ctx.fillRect(x + pad / 2, y + pad / 2, (size - pad) * fill, size - pad);
+        }
+      }
+    }
+
+    const plates = {
+      router: document.querySelector<HTMLCanvasElement>('[data-plate="router"]'),
+      matrix: document.querySelector<HTMLCanvasElement>('[data-plate="matrix"]'),
+      histogram: document.querySelector<HTMLCanvasElement>('[data-plate="histogram"]'),
+      bricks: document.querySelector<HTMLCanvasElement>('[data-plate="bricks"]'),
+    };
+    const distinctOut = document.querySelector('[data-distinct]');
+    const errorOut = document.querySelector('[data-error]');
+
+    function regrade() {
+      document.documentElement.dataset.precision = precision;
+      document.querySelectorAll('[data-precision-label]').forEach((el) => {
+        el.textContent = LABEL[precision];
+      });
+      document.querySelectorAll<HTMLInputElement>('[data-precision]').forEach((r) => {
+        r.checked = r.value === precision;
+      });
+      const q = quantize(weights, precision);
+      if (plates.router) drawRouter(plates.router);
+      if (plates.matrix) drawMatrix(plates.matrix, q);
+      if (plates.histogram) drawHistogram(plates.histogram, q);
+      if (plates.bricks) drawBricks(plates.bricks);
+      if (distinctOut) {
+        distinctOut.textContent = new Set(q).size.toLocaleString('en-US');
+      }
+      if (errorOut) errorOut.textContent = meanAbsError(weights, q).toFixed(4);
+    }
+
+    function setPrecision(p: Precision) {
+      if (p === precision) return;
+      precision = p;
+      regrade();
+    }
+
+    document.querySelectorAll<HTMLInputElement>('[data-precision]').forEach((radio) =>
+      radio.addEventListener('change', () => {
+        manual = true;
+        const mode = document.querySelector('[data-precision-mode]');
+        if (mode) mode.textContent = 'Set by you.';
+        setPrecision(radio.value as Precision);
+      }),
+    );
+
+    // Chapter II steps the whole page down as it is read, until the reader takes the dial. On wide
+    // screens the plate is sticky, so the chapter's progress drives it; on phones the plate's own
+    // position does.
+    const auto = document.querySelector<HTMLElement>('[data-auto-precision]');
+    const autoPlate = auto?.querySelector<HTMLElement>('.plate');
+    const narrow = matchMedia('(max-width: 900px)');
+    if (auto && autoPlate)
+      whileVisible(auto, () => {
+        if (manual) return;
+        let t: number;
+        if (narrow.matches) {
+          const r = autoPlate.getBoundingClientRect();
+          t = (innerHeight * 0.8 - r.top) / (r.height * 0.9);
+        } else {
+          const r = auto.getBoundingClientRect();
+          t = (-r.top / Math.max(1, r.height - innerHeight) - 0.04) / 0.8;
+        }
+        setPrecision(PRECISIONS[Math.max(0, Math.min(3, Math.floor(t * 4)))]);
+      });
+
     slider?.addEventListener('input', () => {
       document.querySelector('#scale-label')!.textContent = slider.value;
-      document.querySelectorAll<HTMLOutputElement>('[data-bits]').forEach((out) => {
-        out.textContent = `${((Number(slider.value) * 1e9 * Number(out.dataset.bits)) / 8 / 2 ** 30).toFixed(2)} GiB`;
+      document.querySelectorAll<HTMLElement>('[data-bits]').forEach((out) => {
+        out.textContent = `${gib(Number(slider.value), out.dataset.bits as Precision).toFixed(2)} GiB`;
       });
+      if (plates.bricks) drawBricks(plates.bricks);
     });
 
-    const states = ['-1', '0', '+1'];
-    document.querySelector('#shuffle-trits')?.addEventListener('click', () => {
-      document.querySelectorAll<HTMLElement>('.ternary-chip').forEach((chip, i) => {
-        const next = states[(i + Math.floor(Math.random() * 3)) % 3];
-        chip.dataset.trit = next;
-        chip.textContent = next;
-      });
+    // Folio: chapter number and title follow the reader.
+    const num = document.querySelector('[data-folio-num]');
+    const title = document.querySelector('[data-folio-title]');
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const [n, t] = (e.target as HTMLElement).dataset.folio!.split('|');
+          if (num) num.innerHTML = n;
+          if (title) title.textContent = t;
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    document.querySelectorAll('[data-folio]').forEach((el) => io.observe(el));
+
+    regrade();
+    let resize = 0;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(resize);
+      resize = requestAnimationFrame(regrade);
     });
+    document.fonts?.ready.then(regrade);
   </script>
-</Shell>
+</Stage>

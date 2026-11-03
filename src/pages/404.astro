@@ -1,18 +1,22 @@
 ---
-import Shell from '../layouts/Shell.astro';
+import Stage from '../layouts/Stage.astro';
+import '../styles/home.css';
 import { link } from '../lib/links';
 ---
 
-<Shell
-  title="Page not found — The Guild Inference Project"
+<Stage
+  title="Page not found: The Guild Inference Project"
   description="Return to The Guild Inference Project."
+  theme="#0e0e0c"
   noindex
 >
-  <section class="subhero wrap">
-    <div class="eyebrow">404 / Page not found</div>
-    <h1>A path still<br /><em>to be made.</em></h1>
-    <div class="actions">
-      <a class="button" href={link('illatio')}>Return to The Guild Inference Project ↗</a>
-    </div>
-  </section>
-</Shell>
+  <main id="main" class="poster lost">
+    <p class="lost__code" aria-hidden="true">404</p>
+    <h1 class="lost__title">A path still to be made.</h1>
+    <p class="lost__links">
+      <a class="close__cta" href={link('illatio')}>Return to The Guild Inference Project</a>, or go
+      to <a href={link('guild')}>Guild</a>, <a href={link('labs')}>Labs</a> or
+      <a href={link('cloud')}>Cloud</a>.
+    </p>
+  </main>
+</Stage>

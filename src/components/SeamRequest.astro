@@ -1,0 +1,30 @@
+---
+// The same request rendered twice, once per side of the divider. The page clips each copy at the
+// divider, so the seam passing over the Host line is what changes it.
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+const body = `Content-Type: application/json
+
+{ "model": "Qwen3.8-Flash-Next",
+  "messages": [
+    { "role": "user", "content": "Hello" } ] }`;
+---
+
+<div class={`req ${className}`} data-req>
+  <p class="visually-hidden">
+    The same request on both sides of the page. On your machine it goes to Guild at 127.0.0.1:11434.
+    Guild Cloud has no public endpoint yet.
+  </p>
+  <pre
+    class="req__copy req__copy--local"
+    aria-hidden="true"><span class="req__line">POST /v1/chat/completions</span>
+<span class="req__line req__host">Host:                     <b>127.0.0.1:11434</b></span>
+{body}</pre>
+  <pre
+    class="req__copy req__copy--cloud"
+    aria-hidden="true"><span class="req__line">POST /v1/chat/completions</span>
+<span class="req__line req__host">Host:                     <b>not live yet</b></span>
+{body}</pre>
+</div>

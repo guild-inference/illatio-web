@@ -10,6 +10,7 @@ export default [
       'test-results/**',
       'playwright-report/**',
       'src/data/generated/**',
+      'src/vendor/**',
     ],
   },
   ...tseslint.configs.recommended,
